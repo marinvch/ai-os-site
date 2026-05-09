@@ -337,7 +337,7 @@ html, body, #root {
   background: none !important;
   border: none !important;
   padding: 0 !important;
-  color: inherit;
+  color: #c9d1d9; /* always-dark code bg — use github-dark default text color */
   font-size: inherit;
 }
 
