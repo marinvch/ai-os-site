@@ -11,6 +11,7 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="layout">
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <Header onMenuToggle={() => setSidebarOpen(o => !o)} />
       <div className="layout-body">
         <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -24,7 +25,7 @@ export default function Layout({ children }: LayoutProps) {
             onClick={() => setSidebarOpen(false)}
           />
         )}
-        <main className="content">
+        <main className="content" id="main-content">
           <div className="content-inner">{children}</div>
         </main>
       </div>

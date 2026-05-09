@@ -1,0 +1,21 @@
+{
+  "name": "AI OS Documentation",
+  "short_name": "AI OS",
+  "description": "Context-enriched GitHub Copilot framework — documentation",
+  "start_url": "/ai-os-site/",
+  "scope": "/ai-os-site/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/ai-os-site/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["developer-tools", "productivity"],
+  "prefer_related_applications": false
+}

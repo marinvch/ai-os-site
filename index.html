@@ -1,15 +1,94 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="AI OS — Context-enriched GitHub Copilot framework. Installs in 30 seconds, stays fresh automatically." />
-    <meta name="keywords" content="GitHub Copilot, AI, MCP, developer tools, context engineering, TypeScript" />
-    <meta property="og:title" content="AI OS — Documentation" />
-    <meta property="og:description" content="Context-enriched GitHub Copilot framework. Installs in 30 seconds, stays fresh automatically." />
+
+    <!-- Anti-FOUT: set theme before first paint -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'light' || t === 'dark') {
+            document.documentElement.setAttribute('data-theme', t);
+          } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Primary Meta -->
+    <title>AI OS — Context-enriched GitHub Copilot Framework</title>
+    <meta name="description" content="AI OS scans your repository, generates rich context for GitHub Copilot, and keeps it fresh automatically. 30 MCP tools, memory system, dry-run mode, stack detection. Installs in 30 seconds." />
+    <meta name="keywords" content="GitHub Copilot, AI coding assistant, MCP tools, context engineering, TypeScript, developer tools, AI OS, code context, copilot instructions" />
+    <meta name="author" content="Marin Vanchev" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <link rel="canonical" href="https://marinvch.github.io/ai-os-site/" />
+
+    <!-- Favicon & manifest -->
+    <link rel="icon" type="image/svg+xml" href="/ai-os-site/favicon.svg" />
+    <link rel="manifest" href="/ai-os-site/manifest.json" />
+    <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#3b82f6" media="(prefers-color-scheme: dark)" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <title>AI OS — Documentation</title>
+    <meta property="og:url" content="https://marinvch.github.io/ai-os-site/" />
+    <meta property="og:title" content="AI OS — Context-enriched GitHub Copilot Framework" />
+    <meta property="og:description" content="Scan your repo, generate rich Copilot context, keep it fresh automatically. 30 MCP tools, memory system, dry-run diff, stack detection. Free &amp; open-source." />
+    <meta property="og:site_name" content="AI OS Documentation" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AI OS — Context-enriched GitHub Copilot Framework" />
+    <meta name="twitter:description" content="Scan your repo, generate rich Copilot context, keep it fresh automatically. 30 MCP tools, memory system, dry-run diff. Free &amp; open-source." />
+    <meta name="twitter:creator" content="@marinvch" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://github.com" crossorigin />
+    <link rel="dns-prefetch" href="https://github.com" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "AI OS",
+      "alternateName": "ai-os",
+      "description": "Context-enriched GitHub Copilot framework. Scans your repository, generates rich context for GitHub Copilot, and keeps it fresh automatically. Features 30 MCP tools, memory system, dry-run mode, and stack detection.",
+      "applicationCategory": "DeveloperApplication",
+      "applicationSubCategory": "Developer Tool",
+      "operatingSystem": "Windows, macOS, Linux",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "url": "https://marinvch.github.io/ai-os-site/",
+      "downloadUrl": "https://www.npmjs.com/package/ai-os",
+      "installUrl": "https://github.com/marinvch/ai-os",
+      "sameAs": [
+        "https://github.com/marinvch/ai-os",
+        "https://www.npmjs.com/package/ai-os"
+      ],
+      "softwareVersion": "0.15.0",
+      "releaseNotes": "https://github.com/marinvch/ai-os/releases",
+      "license": "https://github.com/marinvch/ai-os/blob/master/LICENSE",
+      "author": {
+        "@type": "Person",
+        "name": "Marin Vanchev",
+        "url": "https://github.com/marinvch"
+      },
+      "maintainer": {
+        "@type": "Person",
+        "name": "Marin Vanchev",
+        "url": "https://github.com/marinvch"
+      },
+      "keywords": "GitHub Copilot, MCP, context engineering, AI coding assistant, developer tools, TypeScript"
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

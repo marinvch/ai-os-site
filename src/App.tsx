@@ -1,7 +1,8 @@
+import { Suspense, lazy } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
-import DocPage from './pages/DocPage'
+import { ThemeProvider } from './context/ThemeContext'
 
 import gettingStarted from './docs/getting-started.md?raw'
 import configuration from './docs/configuration.md?raw'
@@ -14,24 +15,30 @@ import jsonOutput from './docs/json-output.md?raw'
 import architecture from './docs/architecture.md?raw'
 import contributing from './docs/contributing.md?raw'
 
+const DocPage = lazy(() => import('./pages/DocPage'))
+
+const Loader = () => <div className="content-loader" aria-live="polite">Loading…</div>
+
 export default function App() {
   return (
-    <HashRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/getting-started" element={<DocPage title="Installation" content={gettingStarted} />} />
-          <Route path="/configuration" element={<DocPage title="Configuration" content={configuration} />} />
-          <Route path="/profiles" element={<DocPage title="Profiles" content={profiles} />} />
-          <Route path="/mcp-tools" element={<DocPage title="MCP Tools" content={mcpTools} />} />
-          <Route path="/cli" element={<DocPage title="CLI Reference" content={cliRef} />} />
-          <Route path="/dry-run" element={<DocPage title="Dry-Run Mode" content={dryRun} />} />
-          <Route path="/memory" element={<DocPage title="Memory System" content={memory} />} />
-          <Route path="/json-output" element={<DocPage title="JSON Output" content={jsonOutput} />} />
-          <Route path="/architecture" element={<DocPage title="Architecture" content={architecture} />} />
-          <Route path="/contributing" element={<DocPage title="Contributing" content={contributing} />} />
-        </Routes>
-      </Layout>
-    </HashRouter>
+    <ThemeProvider>
+      <HashRouter>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/getting-started" element={<Suspense fallback={<Loader />}><DocPage title="Installation" content={gettingStarted} /></Suspense>} />
+            <Route path="/configuration" element={<Suspense fallback={<Loader />}><DocPage title="Configuration" content={configuration} /></Suspense>} />
+            <Route path="/profiles" element={<Suspense fallback={<Loader />}><DocPage title="Profiles" content={profiles} /></Suspense>} />
+            <Route path="/mcp-tools" element={<Suspense fallback={<Loader />}><DocPage title="MCP Tools" content={mcpTools} /></Suspense>} />
+            <Route path="/cli" element={<Suspense fallback={<Loader />}><DocPage title="CLI Reference" content={cliRef} /></Suspense>} />
+            <Route path="/dry-run" element={<Suspense fallback={<Loader />}><DocPage title="Dry-Run Mode" content={dryRun} /></Suspense>} />
+            <Route path="/memory" element={<Suspense fallback={<Loader />}><DocPage title="Memory System" content={memory} /></Suspense>} />
+            <Route path="/json-output" element={<Suspense fallback={<Loader />}><DocPage title="JSON Output" content={jsonOutput} /></Suspense>} />
+            <Route path="/architecture" element={<Suspense fallback={<Loader />}><DocPage title="Architecture" content={architecture} /></Suspense>} />
+            <Route path="/contributing" element={<Suspense fallback={<Loader />}><DocPage title="Contributing" content={contributing} /></Suspense>} />
+          </Routes>
+        </Layout>
+      </HashRouter>
+    </ThemeProvider>
   )
 }

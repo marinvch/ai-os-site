@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 const INSTALL_CMD = 'npx -y github:marinvch/ai-os'
@@ -38,6 +38,10 @@ const features = [
 
 export default function Home() {
   const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    document.title = 'AI OS — Context-enriched GitHub Copilot Framework'
+  }, [])
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(INSTALL_CMD)
@@ -132,36 +136,21 @@ export default function Home() {
           ].map(({ step, label, cmd }) => (
             <div
               key={step}
-              style={{
-                display: 'flex',
-                gap: '1rem',
-                marginBottom: '1.25rem',
-                alignItems: 'flex-start',
-              }}
+              style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem', alignItems: 'flex-start' }}
             >
               <div style={{
                 width: '28px', height: '28px', minWidth: '28px',
                 borderRadius: '50%',
                 background: 'var(--accent-bg)',
-                border: '1px solid rgba(59,130,246,0.3)',
+                border: '1px solid var(--accent-border)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '0.75rem', fontWeight: '700', color: 'var(--accent-hover)',
+                fontSize: '0.75rem', fontWeight: '700', color: 'var(--accent)',
               }}>
                 {step}
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: '0.875rem', color: '#94a3b8', marginBottom: '0.4rem' }}>{label}</div>
-                <div style={{
-                  background: '#0d1117',
-                  border: '1px solid var(--border)',
-                  borderRadius: '8px',
-                  padding: '0.6rem 1rem',
-                  fontFamily: 'ui-monospace, monospace',
-                  fontSize: '0.8125rem',
-                  color: '#7dd3fc',
-                }}>
-                  {cmd}
-                </div>
+                <div className="step-label">{label}</div>
+                <div className="step-cmd">{cmd}</div>
               </div>
             </div>
           ))}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://marinvch.github.io/ai-os-site/sitemap.xml
