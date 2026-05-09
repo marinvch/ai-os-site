@@ -103,7 +103,7 @@ export default function Sidebar({ open }: SidebarProps) {
           href="https://github.com/marinvch/ai-os/releases"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ fontSize: '0.75rem', color: 'var(--text-dim)', textDecoration: 'none', display: 'block', marginBottom: '0.4rem' }}
+          style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textDecoration: 'none', display: 'block', marginBottom: '0.4rem' }}
         >
           Changelog →
         </a>
@@ -111,7 +111,7 @@ export default function Sidebar({ open }: SidebarProps) {
           href="https://github.com/marinvch/ai-os/issues"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ fontSize: '0.75rem', color: 'var(--text-dim)', textDecoration: 'none' }}
+          style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textDecoration: 'none' }}
         >
           Report an issue →
         </a>
