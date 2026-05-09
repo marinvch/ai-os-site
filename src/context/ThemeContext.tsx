@@ -1,4 +1,6 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
+import { createMuiTheme } from '../theme/muiTheme'
 
 type Theme = 'light' | 'dark'
 
@@ -25,7 +27,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const toggle = () => setTheme(t => (t === 'light' ? 'dark' : 'light'))
 
-  return <ThemeContext.Provider value={{ theme, toggle }}>{children}</ThemeContext.Provider>
+  const muiTheme = useMemo(() => createMuiTheme(theme), [theme])
+
+  return (
+    <MuiThemeProvider theme={muiTheme}>
+      <ThemeContext.Provider value={{ theme, toggle }}>
+        {children}
+      </ThemeContext.Provider>
+    </MuiThemeProvider>
+  )
 }
 
 export const useTheme = () => useContext(ThemeContext)

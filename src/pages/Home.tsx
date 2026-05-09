@@ -1,36 +1,53 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+import GitHubIcon from '@mui/icons-material/GitHub'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined'
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
+import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined'
+import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined'
+import MemoryOutlinedIcon from '@mui/icons-material/MemoryOutlined'
+import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined'
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
+import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined'
 
 const INSTALL_CMD = 'npx -y github:marinvch/ai-os'
 
 const features = [
   {
-    icon: '🔍',
+    icon: <AutoAwesomeOutlinedIcon />,
     title: 'Auto Stack Detection',
     desc: 'Detects your language, framework, and dependencies automatically. No config files to write.',
   },
   {
-    icon: '🛠️',
+    icon: <BuildOutlinedIcon />,
     title: '30 MCP Tools',
     desc: 'Rich set of context tools wired into GitHub Copilot — architecture, conventions, freshness, memory, and more.',
   },
   {
-    icon: '🧠',
+    icon: <MemoryOutlinedIcon />,
     title: 'Memory System',
     desc: 'Persistent repo-scoped, session, and user memory across Copilot conversations. No more repeating context.',
   },
   {
-    icon: '🔁',
+    icon: <CachedOutlinedIcon />,
     title: 'Context Freshness',
     desc: 'Detects stale context automatically. SHA-256 content-hash gating skips unchanged files on refresh.',
   },
   {
-    icon: '👁️',
+    icon: <VisibilityOutlinedIcon />,
     title: 'Dry-Run Mode',
     desc: 'Preview every change with a colorized unified diff before committing to disk. Add --full-diff for full output.',
   },
   {
-    icon: '🤖',
+    icon: <SmartToyOutlinedIcon />,
     title: 'Skills & Agents',
     desc: 'Auto-installs domain-specific skills and agent files based on your detected stack.',
   },
@@ -68,40 +85,46 @@ export default function Home() {
         </p>
 
         <div className="hero-actions">
-          <Link to="/getting-started" className="btn btn-primary">
-            Get Started →
-          </Link>
-          <a
+          <Button
+            variant="contained"
+            component={Link}
+            to="/getting-started"
+            endIcon={<ArrowForwardIcon />}
+            size="large"
+            sx={{ borderRadius: '8px', fontWeight: 600, px: 2.5 }}
+          >
+            Get Started
+          </Button>
+          <Button
+            variant="outlined"
             href="https://github.com/marinvch/ai-os"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-ghost"
+            startIcon={<GitHubIcon />}
+            size="large"
+            sx={{ borderRadius: '8px', fontWeight: 600, px: 2.5, color: 'text.primary', borderColor: 'divider', '&:hover': { borderColor: 'primary.main' } }}
           >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
-            </svg>
             View on GitHub
-          </a>
+          </Button>
         </div>
 
         <div className="install-box">
           <code>{INSTALL_CMD}</code>
-          <button
-            className={`copy-btn${copied ? ' copied' : ''}`}
-            onClick={handleCopy}
-            title="Copy to clipboard"
-          >
-            {copied ? (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            ) : (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-              </svg>
-            )}
-          </button>
+          <Tooltip title={copied ? 'Copied!' : 'Copy to clipboard'} placement="top">
+            <IconButton
+              onClick={handleCopy}
+              size="small"
+              sx={{
+                color: copied ? 'success.main' : 'text.secondary',
+                transition: 'color 0.2s',
+                '&:hover': { bgcolor: 'transparent', color: 'primary.main' },
+              }}
+            >
+              {copied
+                ? <CheckOutlinedIcon fontSize="small" />
+                : <ContentCopyOutlinedIcon fontSize="small" />}
+            </IconButton>
+          </Tooltip>
         </div>
       </section>
 
@@ -114,11 +137,34 @@ export default function Home() {
         </div>
         <div className="features">
           {features.map(f => (
-            <div key={f.title} className="feature-card">
-              <span className="feature-icon">{f.icon}</span>
-              <h3>{f.title}</h3>
-              <p>{f.desc}</p>
-            </div>
+            <Card key={f.title} elevation={0} sx={{ height: '100%' }}>
+              <CardContent sx={{ p: 2.5 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
+                  <Box
+                    sx={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: '8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      bgcolor: 'primary.main',
+                      color: '#fff',
+                      flexShrink: 0,
+                      '& svg': { fontSize: '1.1rem' },
+                    }}
+                  >
+                    {f.icon}
+                  </Box>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 600, lineHeight: 1.3 }}>
+                    {f.title}
+                  </Typography>
+                </Box>
+                <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
+                  {f.desc}
+                </Typography>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </section>
@@ -156,9 +202,16 @@ export default function Home() {
           ))}
         </div>
         <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-          <Link to="/getting-started" className="btn btn-primary">
-            Full Installation Guide →
-          </Link>
+          <Button
+            variant="contained"
+            component={Link}
+            to="/getting-started"
+            endIcon={<ArrowForwardIcon />}
+            size="large"
+            sx={{ borderRadius: '8px', fontWeight: 600, px: 3 }}
+          >
+            Full Installation Guide
+          </Button>
         </div>
       </section>
     </div>
