@@ -13,5 +13,5 @@ function siteFacts(): Plugin {
 
 export default defineConfig({
   plugins: [react(), tailwindcss(), siteFacts()],
-  base: '/ai-os-site/',
+  base: '/cortex-site/',
 })

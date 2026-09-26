@@ -2,15 +2,15 @@
   "name": "Cortex Documentation",
   "short_name": "Cortex",
   "description": "Cortex — a context manager for new and legacy codebases, installed as a Claude plugin",
-  "start_url": "/ai-os-site/",
-  "scope": "/ai-os-site/",
+  "start_url": "/cortex-site/",
+  "scope": "/cortex-site/",
   "display": "standalone",
   "background_color": "#0f0d0b",
   "theme_color": "#f5b041",
   "lang": "en",
   "icons": [
     {
-      "src": "/ai-os-site/favicon.svg",
+      "src": "/cortex-site/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

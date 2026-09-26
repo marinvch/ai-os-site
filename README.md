@@ -2,7 +2,7 @@
 
 Documentation website for [AI OS](https://github.com/marinvch/ai-os) — context-enriched GitHub Copilot framework.
 
-**Live site:** https://marinvch.github.io/ai-os-site/
+**Live site:** https://marinvch.github.io/cortex-site/
 
 ## Tech Stack
 
