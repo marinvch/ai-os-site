@@ -14,28 +14,38 @@ export const navGroups: NavGroup[] = [
     items: [{ label: 'Home', path: '/' }],
   },
   {
-    title: 'Getting Started',
+    title: 'Start',
     items: [
-      { label: 'Installation', path: '/getting-started' },
-      { label: 'Configuration', path: '/configuration' },
-      { label: 'Profiles', path: '/profiles' },
+      { label: 'Installation', path: '/install' },
+      { label: 'The sequence', path: '/sequence' },
+      { label: 'What lands in your repo', path: '/what-lands' },
     ],
   },
   {
-    title: 'Features',
+    title: 'How it works',
     items: [
-      { label: 'MCP Tools', path: '/mcp-tools' },
-      { label: 'CLI Reference', path: '/cli' },
-      { label: 'Dry-Run Mode', path: '/dry-run' },
-      { label: 'Memory System', path: '/memory' },
-      { label: 'JSON Output', path: '/json-output' },
+      { label: 'Index & findings', path: '/index-and-findings' },
+      { label: 'Cortex View', path: '/cortex-view' },
+      { label: 'The context layer', path: '/context-layer' },
+      { label: 'Team memory', path: '/team-memory' },
     ],
   },
   {
     title: 'Reference',
     items: [
-      { label: 'Architecture', path: '/architecture' },
+      { label: 'Rituals', path: '/rituals' },
+      { label: 'MCP brain', path: '/mcp' },
+      { label: 'CLI reference', path: '/cli' },
+      { label: 'Design principles', path: '/principles' },
+    ],
+  },
+  {
+    title: 'More',
+    items: [
+      { label: 'Personal vault', path: '/vault' },
+      { label: 'Privacy & firewall', path: '/privacy' },
       { label: 'Contributing', path: '/contributing' },
+      { label: 'Moving off the old engine', path: '/migrate' },
     ],
   },
 ]

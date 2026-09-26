@@ -1,87 +1,70 @@
 import { createTheme } from '@mui/material/styles'
 
+// Mirrors the tokens in index.css. Text colours hold 7:1 or better on their surface, and no
+// component renders text under 13px — MUI's Tooltip defaults to 11px, hence the override below.
 export function createMuiTheme(mode: 'light' | 'dark') {
+  const light = mode === 'light'
+  const accent = light ? '#5a3000' : '#ffc766'
   return createTheme({
     palette: {
       mode,
       primary: {
-        main: mode === 'light' ? '#2563eb' : '#3b82f6',
-        dark: mode === 'light' ? '#1d4ed8' : '#2563eb',
-        light: mode === 'light' ? '#3b82f6' : '#60a5fa',
+        main: light ? '#5a3000' : '#f5b041',
+        dark: light ? '#3f2200' : '#d99a2b',
+        light: light ? '#7a4100' : '#ffc766',
+        contrastText: light ? '#ffffff' : '#1a1208',
       },
       background: {
-        default: mode === 'light' ? '#ffffff' : '#0a0a0a',
-        paper: mode === 'light' ? '#f8fafc' : '#111111',
+        default: light ? '#fbf8f3' : '#0f0d0b',
+        paper: light ? '#f4efe7' : '#151210',
       },
       text: {
-        primary: mode === 'light' ? '#0f172a' : '#e5e5e5',
-        secondary: mode === 'light' ? '#475569' : '#737373',
+        primary: light ? '#1a1512' : '#f3ede4',
+        secondary: light ? '#3d342c' : '#d6cabb',
       },
-      divider: mode === 'light' ? '#e2e8f0' : '#222222',
+      divider: light ? '#cfc2b0' : '#3d332b',
     },
     typography: {
       fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif",
-      h6: { fontWeight: 600 },
+      fontSize: 16,
+      htmlFontSize: 16,
     },
-    shape: {
-      borderRadius: 8,
-    },
+    shape: { borderRadius: 8 },
     components: {
       MuiIconButton: {
         defaultProps: { size: 'small' },
-        styleOverrides: {
-          root: {
-            borderRadius: 6,
-            transition: 'background 0.15s',
-          },
-        },
+        styleOverrides: { root: { borderRadius: 6 } },
       },
       MuiTooltip: {
         defaultProps: { arrow: true, placement: 'bottom' },
-      },
-      MuiCard: {
         styleOverrides: {
-          root: ({ theme }) => ({
-            border: `1px solid ${theme.palette.divider}`,
-            transition: 'border-color 0.2s, box-shadow 0.2s',
-            '&:hover': {
-              borderColor: theme.palette.primary.main,
-              boxShadow: `0 0 0 1px ${theme.palette.primary.main}20`,
-            },
-          }),
-        },
-      },
-      MuiButton: {
-        styleOverrides: {
-          root: { textTransform: 'none', fontWeight: 600, borderRadius: 8 },
-          contained: { boxShadow: 'none', '&:hover': { boxShadow: 'none' } },
+          tooltip: {
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            color: light ? '#ffffff' : '#1a1512',
+            backgroundColor: light ? '#1a1512' : '#f3ede4',
+          },
+          arrow: { color: light ? '#1a1512' : '#f3ede4' },
         },
       },
       MuiListItemButton: {
         styleOverrides: {
-          root: ({ theme }) => ({
+          root: {
             borderRadius: 6,
-            margin: '1px 8px',
-            padding: '5px 12px',
-            fontSize: '0.875rem',
+            margin: '1px 10px',
+            padding: '6px 12px',
             '&.Mui-selected': {
-              backgroundColor: theme.palette.primary.main + '14',
-              color: theme.palette.primary.main,
-              fontWeight: 600,
-              '&:hover': {
-                backgroundColor: theme.palette.primary.main + '20',
-              },
-              '& .MuiListItemIcon-root': {
-                color: theme.palette.primary.main,
-              },
+              backgroundColor: light ? 'rgba(90, 48, 0, 0.10)' : 'rgba(245, 176, 65, 0.14)',
+              color: accent,
+              boxShadow: `inset 3px 0 0 ${light ? '#b86e00' : '#f5b041'}`,
+              '&:hover': { backgroundColor: light ? 'rgba(90, 48, 0, 0.14)' : 'rgba(245, 176, 65, 0.2)' },
+              '& .MuiListItemIcon-root': { color: accent },
             },
-          }),
+          },
         },
       },
       MuiListItemIcon: {
-        styleOverrides: {
-          root: { minWidth: 32, color: 'inherit', opacity: 0.65 },
-        },
+        styleOverrides: { root: { minWidth: 34, color: 'inherit' } },
       },
     },
   })

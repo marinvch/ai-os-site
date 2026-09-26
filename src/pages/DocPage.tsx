@@ -1,29 +1,25 @@
-import { useEffect } from 'react'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import rehypeHighlight from 'rehype-highlight'
+import { useEffect, type ReactNode } from 'react'
+import Markdown from '../components/Markdown'
+import { SITE_TITLE } from '../site'
 
 interface DocPageProps {
   title: string
   content: string
+  children?: ReactNode
 }
 
-export default function DocPage({ title, content }: DocPageProps) {
+export default function DocPage({ title, content, children }: DocPageProps) {
   useEffect(() => {
-    document.title = `${title} — AI OS`
+    document.title = `${title} — Cortex`
     return () => {
-      document.title = 'AI OS — Context-enriched GitHub Copilot Framework'
+      document.title = SITE_TITLE
     }
   }, [title])
 
   return (
     <article className="prose" aria-label={title}>
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight]}
-      >
-        {content}
-      </ReactMarkdown>
+      <Markdown source={content} />
+      {children}
     </article>
   )
 }

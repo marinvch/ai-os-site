@@ -18,10 +18,10 @@
       })();
     </script>
 
-    <!-- Primary Meta -->
-    <title>AI OS — Context-enriched GitHub Copilot Framework</title>
-    <meta name="description" content="AI OS scans your repository, generates rich context for GitHub Copilot, and keeps it fresh automatically. 30 MCP tools, memory system, dry-run mode, stack detection. Installs in 30 seconds." />
-    <meta name="keywords" content="GitHub Copilot, AI coding assistant, MCP tools, context engineering, TypeScript, developer tools, AI OS, code context, copilot instructions" />
+    <!-- Primary Meta. %CORTEX_*% placeholders are filled from site-facts.json at build time (vite.config.ts). -->
+    <title>Cortex — a context manager for new and legacy codebases</title>
+    <meta name="description" content="Cortex indexes a codebase, ranks what it finds, and writes the context layer every developer's agent reads — AGENTS.md, scoped briefs, a glossary, decisions and committed team memory. Installed as a Claude plugin." />
+    <meta name="keywords" content="Cortex, Claude plugin, Claude Code, AGENTS.md, context engineering, codebase context, legacy code, MCP, developer tools" />
     <meta name="author" content="Marin Vanchev" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
     <link rel="canonical" href="https://marinvch.github.io/ai-os-site/" />
@@ -29,21 +29,21 @@
     <!-- Favicon & manifest -->
     <link rel="icon" type="image/svg+xml" href="/ai-os-site/favicon.svg" />
     <link rel="manifest" href="/ai-os-site/manifest.json" />
-    <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#3b82f6" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbf8f3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f0d0b" media="(prefers-color-scheme: dark)" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://marinvch.github.io/ai-os-site/" />
-    <meta property="og:title" content="AI OS — Context-enriched GitHub Copilot Framework" />
-    <meta property="og:description" content="Scan your repo, generate rich Copilot context, keep it fresh automatically. 30 MCP tools, memory system, dry-run diff, stack detection. Free &amp; open-source." />
-    <meta property="og:site_name" content="AI OS Documentation" />
+    <meta property="og:title" content="Cortex — a context manager for new and legacy codebases" />
+    <meta property="og:description" content="Index a codebase, rank what it finds, and write the context layer your agents read. A Claude plugin, free and open-source." />
+    <meta property="og:site_name" content="Cortex" />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="AI OS — Context-enriched GitHub Copilot Framework" />
-    <meta name="twitter:description" content="Scan your repo, generate rich Copilot context, keep it fresh automatically. 30 MCP tools, memory system, dry-run diff. Free &amp; open-source." />
+    <meta name="twitter:title" content="Cortex — a context manager for new and legacy codebases" />
+    <meta name="twitter:description" content="Index a codebase, rank what it finds, and write the context layer your agents read. A Claude plugin, free and open-source." />
     <meta name="twitter:creator" content="@marinvch" />
 
     <!-- Performance hints -->
@@ -55,9 +55,8 @@
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": "AI OS",
-      "alternateName": "ai-os",
-      "description": "Context-enriched GitHub Copilot framework. Scans your repository, generates rich context for GitHub Copilot, and keeps it fresh automatically. Features 30 MCP tools, memory system, dry-run mode, and stack detection.",
+      "name": "Cortex",
+      "description": "A context manager for new and legacy codebases, installed as a Claude plugin. Indexes a repository, ranks what it finds, and writes the context layer every developer's agent reads.",
       "applicationCategory": "DeveloperApplication",
       "applicationSubCategory": "Developer Tool",
       "operatingSystem": "Windows, macOS, Linux",
@@ -67,26 +66,18 @@
         "priceCurrency": "USD"
       },
       "url": "https://marinvch.github.io/ai-os-site/",
-      "downloadUrl": "https://www.npmjs.com/package/ai-os",
-      "installUrl": "https://github.com/marinvch/ai-os",
-      "sameAs": [
-        "https://github.com/marinvch/ai-os",
-        "https://www.npmjs.com/package/ai-os"
-      ],
-      "softwareVersion": "0.15.0",
-      "releaseNotes": "https://github.com/marinvch/ai-os/releases",
-      "license": "https://github.com/marinvch/ai-os/blob/master/LICENSE",
+      "installUrl": "https://github.com/marinvch/Cortex",
+      "codeRepository": "https://github.com/marinvch/Cortex",
+      "sameAs": ["https://github.com/marinvch/Cortex"],
+      "softwareVersion": "%CORTEX_VERSION%",
+      "releaseNotes": "https://github.com/marinvch/Cortex/blob/master/CHANGELOG.md",
+      "license": "https://github.com/marinvch/Cortex/blob/master/LICENSE",
       "author": {
         "@type": "Person",
         "name": "Marin Vanchev",
         "url": "https://github.com/marinvch"
       },
-      "maintainer": {
-        "@type": "Person",
-        "name": "Marin Vanchev",
-        "url": "https://github.com/marinvch"
-      },
-      "keywords": "GitHub Copilot, MCP, context engineering, AI coding assistant, developer tools, TypeScript"
+      "keywords": "Cortex, Claude plugin, Claude Code, AGENTS.md, context engineering, MCP, developer tools"
     }
     </script>
   </head>
