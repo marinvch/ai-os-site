@@ -1,36 +1,45 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { navGroups } from '../nav'
+import { REPO_URL } from '../site'
 import List from '@mui/material/List'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import Divider from '@mui/material/Divider'
-import Typography from '@mui/material/Typography'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined'
-import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
-import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined'
-import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined'
-import TerminalOutlinedIcon from '@mui/icons-material/TerminalOutlined'
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
-import MemoryOutlinedIcon from '@mui/icons-material/MemoryOutlined'
-import DataObjectOutlinedIcon from '@mui/icons-material/DataObjectOutlined'
-import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined'
+import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined'
+import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined'
+import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined'
+import HubOutlinedIcon from '@mui/icons-material/HubOutlined'
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined'
+import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined'
+import MemoryOutlinedIcon from '@mui/icons-material/MemoryOutlined'
+import TerminalOutlinedIcon from '@mui/icons-material/TerminalOutlined'
+import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined'
+import BookOutlinedIcon from '@mui/icons-material/BookOutlined'
+import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined'
+import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined'
+import MoveUpOutlinedIcon from '@mui/icons-material/MoveUpOutlined'
 import type { SvgIconComponent } from '@mui/icons-material'
 
 const iconMap: Record<string, SvgIconComponent> = {
   '/': HomeOutlinedIcon,
-  '/getting-started': DownloadOutlinedIcon,
-  '/configuration': TuneOutlinedIcon,
-  '/profiles': LayersOutlinedIcon,
-  '/mcp-tools': BuildOutlinedIcon,
+  '/install': DownloadOutlinedIcon,
+  '/sequence': FormatListNumberedOutlinedIcon,
+  '/what-lands': FolderOutlinedIcon,
+  '/index-and-findings': TravelExploreOutlinedIcon,
+  '/cortex-view': HubOutlinedIcon,
+  '/context-layer': DescriptionOutlinedIcon,
+  '/team-memory': GroupsOutlinedIcon,
+  '/rituals': AutoStoriesOutlinedIcon,
+  '/mcp': MemoryOutlinedIcon,
   '/cli': TerminalOutlinedIcon,
-  '/dry-run': VisibilityOutlinedIcon,
-  '/memory': MemoryOutlinedIcon,
-  '/json-output': DataObjectOutlinedIcon,
-  '/architecture': AccountTreeOutlinedIcon,
-  '/contributing': GroupsOutlinedIcon,
+  '/principles': AccountTreeOutlinedIcon,
+  '/vault': BookOutlinedIcon,
+  '/privacy': ShieldOutlinedIcon,
+  '/contributing': HandshakeOutlinedIcon,
+  '/migrate': MoveUpOutlinedIcon,
 }
 
 interface SidebarProps {
@@ -38,32 +47,15 @@ interface SidebarProps {
   onClose: () => void
 }
 
-export default function Sidebar({ open }: SidebarProps) {
+export default function Sidebar({ open, onClose }: SidebarProps) {
   const location = useLocation()
   const navigate = useNavigate()
 
   return (
-    <nav className={`sidebar${open ? ' open' : ''}`}>
+    <nav className={`sidebar${open ? ' open' : ''}`} aria-label="Documentation">
       {navGroups.map((group, gi) => (
         <div key={gi}>
-          {group.title && (
-            <Typography
-              variant="caption"
-              sx={{
-                display: 'block',
-                px: 2.5,
-                pt: gi === 0 ? 1.5 : 2,
-                pb: 0.5,
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: 'text.disabled',
-                fontSize: '0.675rem',
-              }}
-            >
-              {group.title}
-            </Typography>
-          )}
+          {group.title && <span className="sidebar-group-title">{group.title}</span>}
           <List dense disablePadding>
             {group.items.map(item => {
               const Icon = iconMap[item.path]
@@ -72,18 +64,18 @@ export default function Sidebar({ open }: SidebarProps) {
                 <ListItemButton
                   key={item.path}
                   selected={isActive}
-                  onClick={() => navigate(item.path)}
-                  sx={{ py: 0.6 }}
+                  aria-current={isActive ? 'page' : undefined}
+                  onClick={() => { navigate(item.path); onClose() }}
                 >
                   {Icon && (
                     <ListItemIcon>
-                      <Icon sx={{ fontSize: '1.05rem' }} />
+                      <Icon sx={{ fontSize: '1.2rem' }} />
                     </ListItemIcon>
                   )}
                   <ListItemText
                     disableTypography
                     primary={
-                      <span style={{ fontSize: '0.875rem', fontWeight: isActive ? 600 : 400 }}>
+                      <span style={{ fontSize: '0.975rem', fontWeight: isActive ? 700 : 500 }}>
                         {item.label}
                       </span>
                     }
@@ -92,27 +84,14 @@ export default function Sidebar({ open }: SidebarProps) {
               )
             })}
           </List>
-          {gi < navGroups.length - 1 && (
-            <Divider sx={{ mx: 2, mt: 1.5, borderColor: 'divider' }} />
-          )}
         </div>
       ))}
 
-      <div style={{ marginTop: '1.5rem', padding: '0 1.5rem' }}>
-        <a
-          href="https://github.com/marinvch/ai-os/releases"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textDecoration: 'none', display: 'block', marginBottom: '0.4rem' }}
-        >
+      <div className="sidebar-footer">
+        <a href={`${REPO_URL}/blob/master/CHANGELOG.md`} target="_blank" rel="noopener noreferrer">
           Changelog →
         </a>
-        <a
-          href="https://github.com/marinvch/ai-os/issues"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textDecoration: 'none' }}
-        >
+        <a href={`${REPO_URL}/issues`} target="_blank" rel="noopener noreferrer">
           Report an issue →
         </a>
       </div>

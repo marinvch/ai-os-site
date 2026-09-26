@@ -1,95 +1,40 @@
 # Contributing
 
-AI OS is open source and contributions are welcome. This guide covers how to set up the development environment, run tests, and submit changes.
+Cortex is source code with contributors, tests, CI and releases. Before editing anything in the
+repository, read [`docs/changing-cortex.md`](https://github.com/marinvch/Cortex/blob/master/docs/changing-cortex.md)
+— the invariants that apply to every package. Several of them exist because the mistake they
+prevent has already been made once.
 
-## Development Setup
+## The rules that bite first
 
-**Prerequisites:** Node.js 20+, npm
+- **Never hand-edit a version.** `node tools/cortex-version.mjs --set <x.y.z>` stamps every site at
+  once and refuses without a changelog entry.
+- **Every ritual declares a capability floor** — `mechanical`, `judgment` or `strong` — so a model
+  too weak for a ritual is told, not trusted.
+- **Every ritual is reachable** from another, or says what reaches it. A ritual nothing points at is
+  unreachable except by someone who already knows it exists.
+- **A destructive shell tool routes its target through the root guard.** A string-prefix check is
+  not a guard: a symlink out of the root passes any prefix comparison.
+- **Assert the property, not the symptom you thought of.** A test naming one symptom passes for
+  every other way of failing.
 
-```bash
-# Clone the repo
-git clone https://github.com/marinvch/ai-os.git
-cd ai-os
-
-# Install dependencies
-npm install
-
-# Build
-npm run build
-
-# Run tests
-npm test
-```
-
-## Project Structure
-
-```text
-src/
-  actions/        # CLI action handlers (apply, doctor, dry-run, etc.)
-  cli/            # Argument parsing and dispatch
-  detectors/      # Stack detection (language, framework, patterns)
-  generators/     # File generation (instructions, context, MCP, skills)
-  mcp-server/     # MCP server and tool definitions
-  recommendations/ # Stack-specific recommendation registry
-  templates/      # Markdown templates for generated files
-  tests/          # Vitest test suite
-  validation/     # Smoke tests and regression suite
-bundle/           # Built CLI bundle (esbuild output)
-scripts/          # Build scripts
-```
-
-## Development Commands
+## Running the tests
 
 ```bash
-npm run build          # Compile TypeScript
-npm test               # Run Vitest test suite (376 tests)
-npm run lint           # ESLint with security rules
-npm run validate:fast  # build + lint + test
-npm run bundle         # Rebuild CLI bundle (esbuild)
-npm run gen-mcp-docs   # Regenerate docs/mcp-tools.md from source
-npm run doctor         # Health check against current repo
-npm run generate:dry   # Dry-run against current repo
+node --test core/test/*.test.js
+node --test index/test/*.test.mjs
+(cd mcp && npm test)
+bash tools/test/run.sh          # the shell half: real git repos in temp dirs
 ```
 
-## Coding Conventions
+`tools/test/run.sh` is the only way to run a shell test fragment — each one expects the temp
+directory the runner prepares, and run on its own it would act on the repository you are standing
+in.
 
-- **TypeScript** with strict mode — no `any`, no `!` non-null assertions without justification
-- **ESM modules** — `"type": "module"` in package.json, `.js` extensions in imports
-- **Early returns** over nested `if` blocks
-- **No `console.log`** in library code — use the `--json` output path or stderr
-- **Vitest** for tests — `describe` / `it` / `expect`, no `test.only` committed
+## Where to look
 
-## Adding a New MCP Tool
+Read the root `AGENTS.md`, match your work to a row of its routing table, then open **one** leaf —
+`core/`, `index/`, `mcp/` or `tools/` each carry their own brief. Domain terms are defined once in
+`CONTEXT.md`; decisions and their rejected alternatives are in `docs/adr/`.
 
-1. Add the tool definition to `src/mcp-server/tool-definitions.ts` in `MCP_TOOL_DEFINITIONS`
-2. Implement the handler function (pure function, no side effects)
-3. Add it to the appropriate partition in `src/mcp-tools.ts`
-4. Regenerate the docs: `npm run gen-mcp-docs`
-5. Add a test in `src/tests/`
-
-## Adding a New Generator
-
-1. Create `src/generators/my-generator.ts`
-2. Export a function that returns `{ filePath: string; content: string }[]`
-3. Import and call it from `src/actions/apply.ts`
-4. Guard all disk writes with the `dryRun` check pattern
-5. Add tests in `src/tests/`
-
-## Submitting a Pull Request
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/my-feature`
-3. Make changes and add tests
-4. Run `npm run validate:fast` — must pass cleanly
-5. Commit with a descriptive message
-6. Open a PR against the `dev` branch (not `master`)
-
-## Reporting Issues
-
-Open an issue at [github.com/marinvch/ai-os/issues](https://github.com/marinvch/ai-os/issues) with:
-
-- AI OS version (`npx github:marinvch/ai-os --version`)
-- Node.js version (`node --version`)
-- Operating system
-- Reproduction steps
-- Expected vs. actual behavior
+Issues and pull requests: [github.com/marinvch/Cortex](https://github.com/marinvch/Cortex).

@@ -1,12 +1,12 @@
 {
-  "name": "AI OS Documentation",
-  "short_name": "AI OS",
-  "description": "Context-enriched GitHub Copilot framework — documentation",
+  "name": "Cortex Documentation",
+  "short_name": "Cortex",
+  "description": "Cortex — a context manager for new and legacy codebases, installed as a Claude plugin",
   "start_url": "/ai-os-site/",
   "scope": "/ai-os-site/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2563eb",
+  "background_color": "#0f0d0b",
+  "theme_color": "#f5b041",
   "lang": "en",
   "icons": [
     {

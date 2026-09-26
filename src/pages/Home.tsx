@@ -1,218 +1,152 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined'
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
-import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined'
-import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined'
+import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined'
+import HubOutlinedIcon from '@mui/icons-material/HubOutlined'
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined'
+import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined'
 import MemoryOutlinedIcon from '@mui/icons-material/MemoryOutlined'
-import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined'
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
-import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined'
+import { facts, installBlock, ritual } from '../facts'
+import { InlineMarkdown } from '../components/Markdown'
+import { REPO_URL, SITE_TITLE } from '../site'
 
-const INSTALL_CMD = 'npx -y github:marinvch/ai-os'
+interface Feature { icon: ReactNode; title: string; desc: string; to: string }
 
-const features = [
+const features: Feature[] = [
   {
-    icon: <AutoAwesomeOutlinedIcon />,
-    title: 'Auto Stack Detection',
-    desc: 'Detects your language, framework, and dependencies automatically. No config files to write.',
+    icon: <TravelExploreOutlinedIcon />,
+    title: 'Index & ranked findings',
+    desc: 'A deterministic map of the repo — no LLM, no network — and one report of issues and gaps, ranked by severity.',
+    to: '/index-and-findings',
   },
   {
-    icon: <BuildOutlinedIcon />,
-    title: '30 MCP Tools',
-    desc: 'Rich set of context tools wired into GitHub Copilot — architecture, conventions, freshness, memory, and more.',
+    icon: <HubOutlinedIcon />,
+    title: 'Cortex View',
+    desc: 'The repo as one offline HTML page: an import graph by area, every file, and the busiest code with no test.',
+    to: '/cortex-view',
+  },
+  {
+    icon: <DescriptionOutlinedIcon />,
+    title: 'The context layer',
+    desc: 'A small root AGENTS.md with a routing table, scoped briefs where they are earned, a glossary and decisions.',
+    to: '/context-layer',
+  },
+  {
+    icon: <GroupsOutlinedIcon />,
+    title: 'Team memory',
+    desc: 'What the team’s agents learn, committed next to the code and synced by git. Secrets are refused at the gate.',
+    to: '/team-memory',
+  },
+  {
+    icon: <AutoStoriesOutlinedIcon />,
+    title: `${facts.rituals.length} rituals`,
+    desc: 'Plain SKILL.md files: install, review a change, trace impact, diagnose a bug, ship, hand off.',
+    to: '/rituals',
   },
   {
     icon: <MemoryOutlinedIcon />,
-    title: 'Memory System',
-    desc: 'Persistent repo-scoped, session, and user memory across Copilot conversations. No more repeating context.',
-  },
-  {
-    icon: <CachedOutlinedIcon />,
-    title: 'Context Freshness',
-    desc: 'Detects stale context automatically. SHA-256 content-hash gating skips unchanged files on refresh.',
-  },
-  {
-    icon: <VisibilityOutlinedIcon />,
-    title: 'Dry-Run Mode',
-    desc: 'Preview every change with a colorized unified diff before committing to disk. Add --full-diff for full output.',
-  },
-  {
-    icon: <SmartToyOutlinedIcon />,
-    title: 'Skills & Agents',
-    desc: 'Auto-installs domain-specific skills and agent files based on your detected stack.',
+    title: `MCP brain — ${facts.mcpTools.length} tools`,
+    desc: 'Live recall over the repo’s memory for any agent that speaks MCP. No dependencies.',
+    to: '/mcp',
   },
 ]
+
+const steps = [ritual('cortex'), ritual('cortex-next'), ritual('cortex-review'), ritual('dream')]
 
 export default function Home() {
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
-    document.title = 'AI OS — Context-enriched GitHub Copilot Framework'
+    document.title = SITE_TITLE
   }, [])
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(INSTALL_CMD)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    try {
+      await navigator.clipboard.writeText(installBlock)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Clipboard can be refused (insecure context, permissions); the commands stay selectable.
+    }
   }
 
   return (
     <div>
-      {/* Hero */}
       <section className="hero">
         <div className="hero-badge">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
-            <circle cx="5" cy="5" r="5"/>
-          </svg>
-          v0.15.0 — now with dry-run diff & hash gate
+          <span className="hero-badge-dot" aria-hidden="true" />
+          v{facts.version} · Claude plugin · Node {facts.node}
         </div>
 
-        <h1>Context-enriched Copilot<br/>for any codebase</h1>
+        <h1>
+          A context manager for <span className="hero-accent">new and legacy codebases</span>
+        </h1>
 
-        <p>
-          AI OS scans your repository, generates rich context for GitHub Copilot,
-          and keeps it fresh — automatically. Install once, stay productive forever.
+        <p className="hero-lede">
+          Cortex indexes a repository, reports what it finds, and — once you say so — writes the
+          context layer every developer’s agent reads: a small root brief, scoped briefs where they
+          are earned, a domain glossary, decisions, and a shared memory committed with the code.
         </p>
 
-        <div className="hero-actions">
-          <Button
-            variant="contained"
-            component={Link}
-            to="/getting-started"
-            endIcon={<ArrowForwardIcon />}
-            size="large"
-            sx={{ borderRadius: '8px', fontWeight: 600, px: 2.5 }}
-          >
-            Get Started
-          </Button>
-          <Button
-            variant="outlined"
-            href="https://github.com/marinvch/ai-os"
-            target="_blank"
-            rel="noopener noreferrer"
-            startIcon={<GitHubIcon />}
-            size="large"
-            sx={{ borderRadius: '8px', fontWeight: 600, px: 2.5, color: 'text.primary', borderColor: 'divider', '&:hover': { borderColor: 'primary.main' } }}
-          >
-            View on GitHub
-          </Button>
-        </div>
-
         <div className="install-box">
-          <code>{INSTALL_CMD}</code>
-          <Tooltip title={copied ? 'Copied!' : 'Copy to clipboard'} placement="top">
+          <span className="install-box-label">Install in Claude Code</span>
+          <pre>{installBlock}</pre>
+          <Tooltip title={copied ? 'Copied' : 'Copy the commands'}>
             <IconButton
+              className="copy-btn"
               onClick={handleCopy}
-              size="small"
-              sx={{
-                color: copied ? 'success.main' : 'text.secondary',
-                transition: 'color 0.2s',
-                '&:hover': { bgcolor: 'transparent', color: 'primary.main' },
-              }}
+              aria-label="Copy the install commands"
+              sx={{ color: copied ? '#c3ec96' : '#f3ede4' }}
             >
-              {copied
-                ? <CheckOutlinedIcon fontSize="small" />
-                : <ContentCopyOutlinedIcon fontSize="small" />}
+              {copied ? <CheckOutlinedIcon /> : <ContentCopyOutlinedIcon />}
             </IconButton>
           </Tooltip>
         </div>
+
+        <div className="hero-actions">
+          <Link to="/install" className="btn btn-primary">
+            Get started <ArrowForwardIcon fontSize="small" />
+          </Link>
+          <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+            <GitHubIcon fontSize="small" /> marinvch/Cortex
+          </a>
+        </div>
       </section>
 
-      <hr className="divider"/>
-
-      {/* Features */}
-      <section>
-        <div className="section">
-          <h2 className="section-title">Everything Copilot needs to understand your codebase</h2>
-        </div>
+      <section className="section">
+        <p className="section-title">What it does</p>
+        <h2>Understand the repo, then write only what you pick</h2>
         <div className="features">
           {features.map(f => (
-            <Card key={f.title} elevation={0} sx={{ height: '100%' }}>
-              <CardContent sx={{ p: 2.5 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-                  <Box
-                    sx={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: '8px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      bgcolor: 'primary.main',
-                      color: '#fff',
-                      flexShrink: 0,
-                      '& svg': { fontSize: '1.1rem' },
-                    }}
-                  >
-                    {f.icon}
-                  </Box>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 600, lineHeight: 1.3 }}>
-                    {f.title}
-                  </Typography>
-                </Box>
-                <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
-                  {f.desc}
-                </Typography>
-              </CardContent>
-            </Card>
+            <Link key={f.to} to={f.to} className="feature-card">
+              <div className="feature-icon">{f.icon}</div>
+              <h3>{f.title}</h3>
+              <p>{f.desc}</p>
+            </Link>
           ))}
         </div>
       </section>
 
-      <hr className="divider"/>
-
-      {/* Quick start */}
       <section className="section">
-        <h2 className="section-title">Up and running in 30 seconds</h2>
-        <div style={{ maxWidth: '580px', margin: '0 auto' }}>
-          {[
-            { step: '1', label: 'Run the installer in your project root', cmd: 'npx -y github:marinvch/ai-os' },
-            { step: '2', label: 'Verify with the health check', cmd: 'npx -y github:marinvch/ai-os --doctor' },
-            { step: '3', label: 'Refresh after major changes', cmd: 'npx -y github:marinvch/ai-os --refresh-existing' },
-          ].map(({ step, label, cmd }) => (
-            <div
-              key={step}
-              style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem', alignItems: 'flex-start' }}
-            >
-              <div style={{
-                width: '28px', height: '28px', minWidth: '28px',
-                borderRadius: '50%',
-                background: 'var(--accent-bg)',
-                border: '1px solid var(--accent-border)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '0.75rem', fontWeight: '700', color: 'var(--accent)',
-              }}>
-                {step}
-              </div>
-              <div style={{ flex: 1 }}>
-                <div className="step-label">{label}</div>
-                <div className="step-cmd">{cmd}</div>
-              </div>
-            </div>
+        <p className="section-title">The loop</p>
+        <h2>Four commands carry most of it</h2>
+        <ol className="steps">
+          {steps.map(s => (
+            <li key={s.name}>
+              <span className="step-cmd">/{s.name}</span>
+              <span className="step-desc"><InlineMarkdown source={s.does} /></span>
+            </li>
           ))}
-        </div>
-        <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-          <Button
-            variant="contained"
-            component={Link}
-            to="/getting-started"
-            endIcon={<ArrowForwardIcon />}
-            size="large"
-            sx={{ borderRadius: '8px', fontWeight: 600, px: 3 }}
-          >
-            Full Installation Guide
-          </Button>
-        </div>
+        </ol>
+        <p style={{ marginTop: '1.25rem', fontSize: '1.05rem' }}>
+          The whole order, and when to skip a step, is on <Link to="/sequence" style={{ color: 'var(--accent)', fontWeight: 700 }}>the sequence</Link>.
+        </p>
       </section>
     </div>
   )
