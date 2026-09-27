@@ -1,6 +1,6 @@
-# AI OS Site
+# Cortex Site
 
-Documentation website for [AI OS](https://github.com/marinvch/ai-os) — context-enriched GitHub Copilot framework.
+Documentation website for [Cortex](https://github.com/marinvch/Cortex) — a context manager for new and legacy codebases, installed as a Claude plugin.
 
 **Live site:** https://marinvch.github.io/cortex-site/
 
