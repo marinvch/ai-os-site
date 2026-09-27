@@ -9,8 +9,12 @@ prevent has already been made once.
 
 - **Never hand-edit a version.** `node tools/cortex-version.mjs --set <x.y.z>` stamps every site at
   once and refuses without a changelog entry.
-- **Every ritual declares a capability floor** — `mechanical`, `judgment` or `strong` — so a model
-  too weak for a ritual is told, not trusted.
+- **Every ritual declares a capability floor** — `mechanical`, `judgment` or `strong`, under its
+  frontmatter's `metadata:` map — so a model too weak for a ritual is told, not trusted. Its
+  `effort:` is read off that floor, not chosen again: `low` for `mechanical`, `high` for `strong`.
+- **Cortex follows the Claude Code rules it reports on.** A test runs the `claude-setup/` findings
+  over the Cortex repository itself and fails on any. Fix the repo, never the checker: loosening a
+  check loosens it for every user.
 - **Every ritual is reachable** from another, or says what reaches it. A ritual nothing points at is
   unreachable except by someone who already knows it exists.
 - **A destructive shell tool routes its target through the root guard.** A string-prefix check is

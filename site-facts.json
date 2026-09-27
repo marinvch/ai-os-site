@@ -115,7 +115,7 @@
       "when": "on request"
     },
     {
-      "does": "who depends on these files, and which of it no test covers",
+      "does": "who depends on these files, and which of it no test covers; `--against` — where it collides with another session's change set",
       "invocation": "model",
       "name": "cortex-impact",
       "when": "before a change"
@@ -157,7 +157,7 @@
       "when": "after scaffold"
     },
     {
-      "does": "render the index as one offline HTML page — map, files, areas, gaps",
+      "does": "render the index as one offline HTML page — overview, map, structure, files, areas, gaps",
       "invocation": "model",
       "name": "cortex-view",
       "when": "after install"
@@ -281,6 +281,12 @@
       "invocation": "model",
       "name": "ship",
       "when": "work is finished"
+    },
+    {
+      "does": "bring Cortex's public site back in line with the source — refresh its facts, redraft changed pages, PR after approval",
+      "invocation": "model",
+      "name": "site-sync",
+      "when": "after a Cortex release"
     },
     {
       "does": "which skills are never reached, redundant, or a prompt would do better",
