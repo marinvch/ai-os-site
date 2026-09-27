@@ -23,7 +23,7 @@ you have to come back here to look up.
 |---|---|---|---|
 | 0 | `/migrate-engine` | harvest a retired `.ai-os/` engine's memory first | there is no `.ai-os/` |
 | 1 | `/cortex` | index → findings → the loop → one confirmation → everything below, in one pass | never — this is the entry point |
-| 2 | `/cortex-view` | the repo as one offline HTML page: map, files, areas, gaps | you would rather read the report |
+| 2 | `/cortex-view` | the repo as one offline HTML page: overview, map, structure, files, areas, gaps | you would rather read the report |
 | 3 | `/optimize-context` | slim the `AGENTS.md` / `CLAUDE.md` / `.cursorrules` that were already here | the repo had none |
 | 4 | `/cortex-scaffold` | write the context layer you picked | — |
 | 5 | `/cortex-brief <dir>` | a scoped `AGENTS.md` leaf per area that earns one | no area holds real invariants |
@@ -44,6 +44,7 @@ Not a sequence — a lookup:
 |---|---|
 | starting a risky feature | `/analyze-spec` |
 | before touching files | `/cortex-impact <files>` |
+| another session is editing the same repo | `/cortex-impact --against <their change set>` |
 | before committing | `/cortex-review` |
 | chasing a bug you cannot explain | `/diagnosing-bugs` |
 | back after time away | `/catch-me-up` |

@@ -33,8 +33,13 @@ Running `/handoff` alone on a day that taught you something parks the work and l
 
 For knowledge that spans several repositories, a team lead runs `/team-init` once to create a
 shared private **team-brain** repository. Each developer runs `/team-add` inside a product repo to
-connect it: the team-brain is cloned locally and a generic connector is dropped into the product
-repo, so notes captured there reach the whole team.
+connect it: the team-brain is cloned locally and a generic connector — the team, the project and
+the team-brain's URL, nothing else — is dropped into the product repo, so notes captured there
+reach the whole team.
+
+In a connected repo, `/catch-me-up` pulls the team-brain first (fast-forward only) and returns
+what every repo of the team captured since the date, alongside the local notes. If the pull fails
+it says so, rather than reporting a quiet week from a stale clone.
 
 ## Recall from any agent
 

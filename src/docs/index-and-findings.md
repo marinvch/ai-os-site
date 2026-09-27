@@ -7,8 +7,8 @@ findings report**.
 ## The index
 
 The structural map of a repository: files, languages, resolved imports, layers, test flags, git
-hot spots. Built with **no LLM and no network**, so the same tree always produces the same output —
-two runs agree byte for byte. That is what makes it safe in CI and cheap on every install.
+hot spots, and the HTTP routes the code calls and serves. Built with **no LLM and no network**, so
+the same tree always produces the same output — two runs agree byte for byte. That is what makes it safe in CI and cheap on every install.
 
 It lives at `.cortex/index/index.json` and is the source of truth for structure. It asks **git**
 which files belong to the repo, rather than guessing from ignore files.
@@ -17,6 +17,16 @@ which files belong to the repo, rather than guessing from ignore files.
 no parser to run. The consequence is stated rather than hidden: dynamic imports are invisible, so
 every "who depends on this" number is a **floor**, never a total, and an orphan is stated as a
 question, never as a delete list.
+
+Pattern-based is not path-only. A monorepo's own packages resolve by name — `@scope/pkg` reaches
+the package's source through the workspace that declares it — and a Java class reaches the classes
+of its own package that it names without an import.
+
+**The route map.** The index also records the HTTP calls a front end makes and the handlers a back
+end declares. `node index/cortex-routes.mjs <dir> --workspace` joins them across a directory of
+checkouts — front-end call → gateway route → handler, each as `repo/file:line` — and writes
+nothing. An endpoint no call reaches is worth checking, never safe to delete: a URL built at
+runtime is counted as unread, not guessed.
 
 ## Findings
 
@@ -27,6 +37,11 @@ authority to modify a repository; nothing outside `.cortex/` is written until yo
 The ranking is not decoration: it is the order `/cortex` walks when it asks you what to act on.
 Offers collapse by action, so one "add a brief" question can cover several findings — and a merged
 question inherits the severity of its most serious member, so merging never buries a critical one.
+
+The report also judges the repo's Claude setup against Anthropic's own documentation — `CLAUDE.md`
+size and emphasis, skill and subagent frontmatter, hook scripts, direct Messages API calls. Each
+`claude-setup/*` finding cites the documented rule it rests on, or says it is Cortex's own
+threshold, and none ranks above medium: it is advice about your repo, not a failure.
 
 ## Enrichment
 

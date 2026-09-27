@@ -7,9 +7,14 @@ which.
 
 A **small** root brief — what the repo is, how to run it, its invariants and gotchas — ending in a
 **routing table**. `CLAUDE.md` and `GEMINI.md` are one-line shims importing it, so Claude, Gemini,
-Copilot and Cursor all read the same file.
+Copilot and Cursor all read the same file. The one addition is Claude-specific: `/cortex` appends
+a `## Verifying your work` block to `CLAUDE.md`. `GEMINI.md` stays one line.
 
 Written by `/cortex-scaffold`, the apply step: it is invoked explicitly and never runs on its own.
+
+Everything Cortex writes here is written with LF line endings, then run through the formatter the
+repo declares — on exactly those files, never the whole tree — and the repo's own lint or format
+check. A brief that fails the repo's own check would break CI on the pull request that adds it.
 
 ## The routing table
 
@@ -31,7 +36,9 @@ One filename per area, never a sprawl of per-topic files.
 ## The glossary and decisions
 
 `CONTEXT.md` is the repo's **domain glossary**: the words the codebase uses, and what they mean
-*here*. `docs/adr/` holds decisions and the alternatives that were rejected.
+*here*. `docs/adr/` holds decisions and the alternatives that were rejected — or `adr/` at the
+root when `docs/` is the source of a published docs site, so the records are not published with
+the user guide. ADRs already on disk stay where they are.
 
 `/domain-modeling` builds and sharpens them — it challenges fuzzy terms, stress-tests them against
 scenarios, and writes the glossary and decisions down as they crystallise.
@@ -43,9 +50,18 @@ skill because the repo takes payments, a migration skill because it owns a datab
 first-test skill because it has none. You pick each one; they are written into the repo and
 committed with its code.
 
+A skill tied to files the index found carries a `paths:` line — `prisma/**, **/*.prisma` for a
+Prisma schema — so Claude Code loads it only when those files are in play. A skill with nothing
+file-shaped behind it gets no `paths:` line at all, and agents that ignore the key read the skill
+as before.
+
 ## Keeping it small
 
 `/optimize-context` audits and slims an existing `AGENTS.md`, `CLAUDE.md` or `.cursorrules` — run
 it **before** scaffolding, so you end with one file rather than two to merge. A context file that
 grows too long gets ignored: when an agent keeps breaking a rule that is written down, the file is
 usually too long, not the rule too weak.
+
+It applies Anthropic's own test to every always-loaded line — *would removing this cause Claude to
+make mistakes?* — along with its rules on area-specific lines, emphasis and length, and cites the
+rule id behind each finding. The test says what to propose; you still say yes to every cut.

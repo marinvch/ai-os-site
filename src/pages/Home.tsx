@@ -28,7 +28,7 @@ const features: Feature[] = [
   {
     icon: <HubOutlinedIcon />,
     title: 'Cortex View',
-    desc: 'The repo as one offline HTML page: an import graph by area, every file, and the busiest code with no test.',
+    desc: 'The repo as one offline HTML page: an overview of its state, an import graph by area, the context layer as a tree, every file, and the busiest code with no test.',
     to: '/cortex-view',
   },
   {
