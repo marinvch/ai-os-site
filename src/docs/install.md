@@ -8,6 +8,9 @@ project or an empty one.
 The first two lines add the marketplace and install the plugin. The third, `/cortex`, runs
 **inside the repo you want it to serve**.
 
+Then turn on auto-update once — Claude Code leaves it off for third-party marketplaces like this
+one, so without it no release reaches you. **Keeping it current**, below, has the clicks.
+
 ## What `/cortex` does on first run
 
 It indexes the codebase, writes **one findings report** — issues, gaps and recommendations,
@@ -31,8 +34,43 @@ what is there, so Cortex has no runtime dependencies at all — every script run
 
 ## Keeping it current
 
-A marketplace update alone can leave the old version installed. After updating, confirm which
-version is active with `claude plugin list` — the current release is **v{{version}}**.
+Claude Code does not update Cortex unless you turn that on. Its
+[plugin docs](https://code.claude.com/docs/en/plugins/install.md) list auto-update as off by default
+for third-party marketplaces, and Cortex's is one of those. Turn it on once:
+**`/plugin` → Marketplaces → select `cortex` → Enable auto-update**.
+
+To update by hand, run both, in this order. The first refreshes the marketplace's copy, the second
+installs from it — the first alone leaves the old version installed.
+
+```
+claude plugin marketplace update cortex
+claude plugin update cortex@cortex
+```
+
+A session already running keeps the version it loaded and says *Run /reload-plugins to apply* — run
+`/reload-plugins` or start a new session. `claude plugin list` shows which version is active; the
+current release is **v{{version}}**.
+
+### On a team
+
+Here updating is not housekeeping. The files `/cortex` stamps are shared through the committed
+`.cortex/stamps.json`, but the plugin is per machine. When that record was written by a newer Cortex
+than yours, `/cortex`, `/cortex-next` and `cortex-stamps.mjs` say so and give you the two commands
+above — and your older plugin refuses to rewrite any file a newer one stamped, because it would put
+its own older template back.
+
+On a team's repo — your profile is `work`, or `/team-add` connected it to a team brain — `/cortex`
+also offers to add Cortex to the repo's committed `.claude/settings.json`: the `cortex` marketplace
+under `extraKnownMarketplaces` and `cortex@cortex` under `enabledPlugins`. It merges those two
+entries in and changes nothing else. Once a teammate trusts the folder, Claude Code registers the
+marketplace for them, but it does not install the plugin: **each teammate still runs
+`claude plugin install cortex@cortex --scope project` once.**
+
+Auto-update for the whole team is a separate yes/no in the same confirmation, unticked unless you
+pick it. It writes `"autoUpdate": true` on the committed `cortex` entry, so every teammate's Claude
+Code refreshes the marketplace and updates Cortex in the background after startup. A committed value
+comes before each teammate's own `/plugin` toggle, so Cortex writes the key only on a `cortex` entry
+it is adding — an entry already in the file keeps its `autoUpdate`, whether `true`, `false` or unset.
 
 ## Other agents
 

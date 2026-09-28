@@ -22,6 +22,7 @@ const root = fileURLToPath(new URL('..', import.meta.url))
 // Slash commands a page may name that are not Cortex rituals.
 const ALLOW = new Map([
   ['plugin', "Claude Code's own /plugin command — the first install step"],
+  ['reload-plugins', "Claude Code's own command that loads an updated plugin into a running session"],
 ])
 
 const problems = []

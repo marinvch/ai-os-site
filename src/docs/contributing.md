@@ -21,6 +21,10 @@ prevent has already been made once.
   not a guard: a symlink out of the root passes any prefix comparison.
 - **Assert the property, not the symptom you thought of.** A test naming one symptom passes for
   every other way of failing.
+- **Edit the body of a skill that has an eval baseline and you re-measure it.** CI fails once a
+  skill listed in `evals/skills.mjs` no longer matches its recorded baseline;
+  `node evals/run.mjs <skill> --record` re-measures it, and refuses a real drop in score unless you
+  give the reason. Frontmatter edits are exempt.
 
 ## Running the tests
 
@@ -29,6 +33,7 @@ node --test core/test/*.test.js
 node --test index/test/*.test.mjs
 (cd mcp && npm test)
 bash tools/test/run.sh          # the shell half: real git repos in temp dirs
+node evals/run.mjs --check      # needs no model: has an evaled skill changed since its baseline
 ```
 
 `tools/test/run.sh` is the only way to run a shell test fragment — each one expects the temp

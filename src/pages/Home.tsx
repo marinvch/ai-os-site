@@ -109,6 +109,12 @@ export default function Home() {
           </Tooltip>
         </div>
 
+        <p style={{ maxWidth: '44rem', margin: '1rem 0 0', fontSize: '1.05rem', lineHeight: 1.6 }}>
+          Then turn on auto-update once — Claude Code leaves it off for third-party marketplaces like
+          this one, so without it no release reaches you.{' '}
+          <Link to="/install" style={{ color: 'var(--accent)', fontWeight: 700 }}>Keeping it current</Link> has the clicks.
+        </p>
+
         <div className="hero-actions">
           <Link to="/install" className="btn btn-primary">
             Get started <ArrowForwardIcon fontSize="small" />

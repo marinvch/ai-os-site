@@ -13,6 +13,8 @@ docs/adr/             decisions, created lazily
   findings/           generated, gitignored
   view/               generated, gitignored — the HTML graph
   memory/             COMMITTED — shared context, secrets refused at the gate
+  stamps.json         COMMITTED — which loop files Cortex stamped, from which release, so a re-run
+                      updates the untouched ones and asks about the ones your team edited
 ```
 
 Nothing above appears until you choose it. `/cortex` and `/cortex-install` index and report
@@ -44,6 +46,27 @@ kind of secret it found. It never sanitises silently.
 The gate mitigates the leak surface; it does not eliminate it. A pattern the scanner does not
 know still gets through, which is why memory holds knowledge about the codebase, not credentials,
 personal notes or employer-sensitive material.
+
+## Why the stamp record is committed
+
+The loop files `/cortex` writes — `REVIEW.md`, the verifier, the hooks and the rest — once never
+changed again: a hook fixed in a later release stayed broken in every repo stamped before the fix.
+Now each one is recorded in `.cortex/stamps.json` with the release and template that wrote it, and a
+re-run of `/cortex` compares both against that record:
+
+| State | What the re-run does |
+|---|---|
+| current | nothing |
+| update — the template changed, nobody touched the file | one confirmed row updates them all |
+| edited — your team changed it, the template did not | nothing; it is yours |
+| conflict — both changed; review — the template changed, but the file holds lines Cortex cannot re-create | asks file by file, with the diff |
+| missing, retired | asks whether to stamp it again or drop it from the record |
+
+The record is committed because it is how the next release tells your team's edits from Cortex's
+own. A repo stamped before the record existed adopts its files without a single rewrite: each is
+compared with the current template before anything changes. The `CLAUDE.md` verification block and
+the hooks merged into `.claude/settings.json` sit inside files your team also writes, so they are
+not in the record.
 
 ## Brownfield-safe
 
