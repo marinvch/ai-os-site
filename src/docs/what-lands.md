@@ -4,10 +4,14 @@ Everything Cortex can write into a target repository, and whether it is committe
 
 ```
 AGENTS.md             small root brief + a routing table
-CLAUDE.md GEMINI.md   one-line shims
+CLAUDE.md GEMINI.md   shims — CLAUDE.md also carries "Verifying your work"
 CONTEXT.md            the domain glossary
-docs/adr/             decisions, created lazily
+docs/adr/             decisions, created lazily (adr/ when docs/ is a published site)
 <area>/AGENTS.md      scoped leaves, only where you accepted one
+REVIEW.md             what a review of this repo checks
+intent/               where a change starts: intent → spec → plan
+.claude/              the verifier or the agent team, hooks, skills that fit the stack
+.github/workflows/    cortex-review.yml (advisory PR review) · agent-evals.yml
 .cortex/
   index/              generated, gitignored
   findings/           generated, gitignored
@@ -64,9 +68,72 @@ re-run of `/cortex` compares both against that record:
 
 The record is committed because it is how the next release tells your team's edits from Cortex's
 own. A repo stamped before the record existed adopts its files without a single rewrite: each is
-compared with the current template before anything changes. The `CLAUDE.md` verification block and
-the hooks merged into `.claude/settings.json` sit inside files your team also writes, so they are
-not in the record.
+compared with the current template before anything changes. The agent team's files are recorded
+too: its agents, the Tester's fence script and the `team` skill. The `CLAUDE.md` verification
+block, the team's section in `CLAUDE.md` and the hooks merged into `.claude/settings.json` sit
+inside files your team also writes, so they are not in the record.
+
+## The agent team
+
+`/cortex` also offers a small team of agents, written into `.claude/agents/` and committed with the
+code. Each one does one job, carries only the tools that job needs, and is filled in from this
+repo's own commands, briefs and ADRs. Every claim one makes about the repo cites a `path:line`, an
+ADR or a command's output.
+
+| Agent | Its one job | Can edit |
+|---|---|---|
+| `architect` | turn a request into a plan: files, blast radius, the rules each must keep | no |
+| `tester` | write the failing test first, then confirm it passes | test files only, fenced by a hook |
+| `implementer` | make the agreed change, inside the planned files | yes |
+| `reviewer` | check the change independently: run it, exercise what sits next to it, read the diff against `REVIEW.md` and the docs | no |
+| `project-manager` | acceptance criteria and the task list, offered only where a plan folder exists | plan folders, by instruction; no hook enforces it |
+
+**You pick each role**, one yes or no at a time. An agent the repo already has is graded and matched
+to a role, and you confirm the match. Then it is offered concrete edits, one agent at a time with
+the diff. A role it covers is never offered again, and Cortex never writes over an agent or skill it
+did not create. A repo with the verifier is offered the upgrade to the Reviewer, and keeps the
+verifier if it says no.
+
+### How a task runs
+
+A short section in `CLAUDE.md` puts the team to work. For each new task that changes code, your
+session runs `/cortex-impact <files> --size` on the files the task will touch, tells you whether it
+recommends one agent or the team and why, and **asks you**. Its thresholds are provisional: they
+were set from four repos' commit history and are not yet measured against outcomes. It recommends;
+you decide.
+
+On "team" the session loads the `team` skill:
+
+1. The Architect plans.
+2. The Tester and the Reviewer object. An objection with no `path:line`, ADR or test behind it is
+   dropped, and the session says how many it dropped.
+3. The Architect accepts or rebuts each remaining objection, with a citation.
+4. After at most two rounds, whatever is still open comes to you side by side, and you decide.
+5. Then comes a failing test, the change, and an independent review.
+
+The session passes work between the agents and edits nothing itself: a change the review calls for
+goes back through the Implementer and then the Reviewer. Nothing is committed, pushed or merged
+unless you ask.
+
+### What the fence does not cover
+
+The Tester's fence is a hook in its own agent file. It is an allow-list, so an edit is refused
+unless it resolves to a test file inside the repo, and an input it cannot read is refused too. It
+has limits:
+
+- **An untrusted folder, and `claude -p`.** Claude Code skips the hook until you trust the folder,
+  and a `-p` session never counts as trusted. The Tester still runs, unfenced.
+- **Bash.** The Tester needs Bash to run tests, and a shell command can write any file. Writing only
+  through Edit and Write is an instruction to it, not a guard.
+- **Teammates.** A Tester spawned as an agent-teams teammate is not documented to carry the hook.
+- **Windows without Git Bash.** Claude Code then runs hooks in PowerShell, and whether a failure
+  there still refuses the edit depends on its version. Treat Git Bash as required.
+
+Claude Code's experimental agent teams can run the same agents as teammates. Cortex never turns that
+mode on, because it is experimental and costs far more tokens; the `team` skill says how, if you
+choose to.
+
+To remove the team, delete its section of `CLAUDE.md`, `.claude/skills/team/` and the agents.
 
 ## Brownfield-safe
 

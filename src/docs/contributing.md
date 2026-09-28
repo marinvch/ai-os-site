@@ -19,6 +19,10 @@ prevent has already been made once.
   unreachable except by someone who already knows it exists.
 - **A destructive shell tool routes its target through the root guard.** A string-prefix check is
   not a guard: a symlink out of the root passes any prefix comparison.
+- **A template that says something is refused ships the thing that refuses it.** A lock that prose
+  promised and no template provided was removed once. The Tester's fence is the model: its agent
+  file may say an edit outside test files is refused only because the hook and its script ship with
+  it, and a test fails if either goes.
 - **Assert the property, not the symptom you thought of.** A test naming one symptom passes for
   every other way of failing.
 - **Edit the body of a skill that has an eval baseline and you re-measure it.** CI fails once a

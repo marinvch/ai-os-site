@@ -44,6 +44,7 @@ Not a sequence — a lookup:
 |---|---|
 | starting a risky feature | `/analyze-spec` |
 | before touching files | `/cortex-impact <files>` |
+| one agent or the team? | `/cortex-impact <files> --size` |
 | another session is editing the same repo | `/cortex-impact --against <their change set>` |
 | before committing | `/cortex-review` |
 | chasing a bug you cannot explain | `/diagnosing-bugs` |
