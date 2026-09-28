@@ -12,6 +12,9 @@ node index/cortex-index.mjs .       # writes .cortex/index/index.json
 node index/cortex-findings.mjs .    # writes .cortex/findings/<date>.md
 node index/cortex-view.mjs .        # writes .cortex/view/repo.html and opens it
 node index/cortex-enrich.mjs plan . # optional: plan the semantic enrichment pass
+node index/cortex-routes.mjs . --workspace  # which back-end handler serves each front-end call
+node index/cortex-stamps.mjs .     # which files /cortex stamped are out of date; writes nothing
+node index/cortex-shared-plugin.mjs .  # on a team repo: what --write would add to .claude/settings.json
 ```
 
 Every command prints a `Next →` line when it finishes, and refuses an unknown or misspelled flag

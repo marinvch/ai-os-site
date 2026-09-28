@@ -10,6 +10,27 @@ On a team, what is shared is the **target repo's** context layer — `AGENTS.md`
 — committed with that code. Every memory write passes the secret gate, which refuses a credential
 rather than sanitising it.
 
+## What Cortex writes, and who fetches an update
+
+- **The indexer, findings, View and every `index/` script** read the repo on disk and write only
+  under its `.cortex/` (the first index run also appends three lines to `.gitignore`, after you
+  agree). They make no network calls and install nothing. Two things there are meant to be
+  committed: `.cortex/memory/`, and `.cortex/stamps.json` — the record of which files Cortex
+  stamped into the repo and from which release.
+- **Two scripts write outside `.cortex/`**, and `/cortex` runs each only on what you confirmed:
+  - `cortex-stamps.mjs update` rewrites only a file Cortex stamped that nobody has touched since,
+    and never when `.cortex/stamps.json` names a newer Cortex than the one running. That check
+    compares the record with the plugin's own version file; nothing is fetched to make it.
+  - `cortex-shared-plugin.mjs --write`, on a team's repo, adds two entries to
+    `.claude/settings.json`, creating the file if there is none, and leaves every other key as it
+    was. It refuses a file that does not parse as JSON. `--auto-update`, a separate choice, also
+    writes `"autoUpdate": true` on a `cortex` entry it adds, and never changes one already there.
+- **Updates are Claude Code's, not Cortex's.** Cortex never checks for a newer release. With
+  auto-update turned on, Claude Code fetches the marketplace itself; the manual update is the two
+  `claude plugin` commands on [Installation](#/install). Once a team has committed the `cortex`
+  marketplace to `.claude/settings.json`, it is Claude Code, not Cortex, that clones
+  `github.com/marinvch/Cortex` on each teammate's machine when they trust the folder.
+
 ## One install, one world
 
 A **profile** declares which world an install belongs to: `home`, `work` or `lab`, set with
