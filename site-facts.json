@@ -115,7 +115,7 @@
       "when": "on request"
     },
     {
-      "does": "who depends on these files, and which of it no test covers; `--against` — where it collides with another session's change set",
+      "does": "who depends on these files, and which of it no test covers; `--against` — where it collides with another session's change set; `--size` — one agent or a team, recommended",
       "invocation": "model",
       "name": "cortex-impact",
       "when": "before a change"
@@ -332,5 +332,5 @@
     }
   ],
   "schema": 1,
-  "version": "2.40.0"
+  "version": "2.41.0"
 }

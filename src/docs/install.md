@@ -16,7 +16,7 @@ one, so without it no release reaches you. **Keeping it current**, below, has th
 It indexes the codebase, writes **one findings report** — issues, gaps and recommendations,
 ranked — works out which parts of the development loop the repo is missing (a verification block
 in `CLAUDE.md`, a verifier subagent, `REVIEW.md`, a PR review workflow, hooks, an `intent/` home,
-evals, control bands), and then **stops and asks once**.
+evals, control bands, [an agent team](#/what-lands)), and then **stops and asks once**.
 
 Nothing in your repo is modified until you pick what to act on. Indexing and reporting are
 read-only by construction: a different skill applies changes.

@@ -52,3 +52,23 @@ Cortex follows Anthropic's own Claude Code documentation, and vendors those rule
 with its source page, the exact sentence it rests on, and the date it was checked. A maintainer
 tool re-verifies them weekly, so a rule that changes upstream is noticed rather than trusted.
 *(ADR 0017)*
+
+## A skill is measured, not self-reported
+
+A skill's quality is its score on scored tasks, recorded for each version of its text. CI checks,
+with no model, that the recorded score belongs to the text that ships, so an edit to a measured
+skill cannot merge until someone re-measures it. Cortex ships no hook for this: a hook fires when a
+skill loads, before any outcome exists, so it would be the model grading its own work, and its log
+would land in your repo. Only skills whose outcome can be checked exactly are covered, and no score
+is faked for the rest. *(ADR 0018)*
+
+## The agent team is yours, and your session runs it
+
+The team is written into your repo as project agents, not shipped inside the plugin. A plugin agent
+ignores hooks, so the Tester's fence would silently not exist, and one plugin file cannot be
+grounded in one repo's commands and briefs. Your own session runs the team from a section of
+`CLAUDE.md`, which keeps Claude Code's system prompt intact and keeps you in the loop, both at the
+one-agent-or-team choice and at every open disagreement. Debate is bounded and evidence-only: every
+objection cites a `path:line`, an ADR or a test, and after two rounds what is still open comes to
+you. Agreement between models is not evidence. Claude Code's experimental agent teams can run the
+same agents, and Cortex never turns them on. *(ADR 0019)*

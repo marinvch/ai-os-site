@@ -14,6 +14,8 @@ node index/cortex-view.mjs .        # writes .cortex/view/repo.html and opens it
 node index/cortex-enrich.mjs plan . # optional: plan the semantic enrichment pass
 node index/cortex-routes.mjs . --workspace  # which back-end handler serves each front-end call
 node index/cortex-stamps.mjs .     # which files /cortex stamped are out of date; writes nothing
+node index/cortex-loop.mjs . --team architect,tester  # the team files, values and roster for those picks; writes nothing
+node index/cortex-impact.mjs src/a.ts --size  # one agent or the team for a task on these files, and why
 node index/cortex-shared-plugin.mjs .  # on a team repo: what --write would add to .claude/settings.json
 ```
 
