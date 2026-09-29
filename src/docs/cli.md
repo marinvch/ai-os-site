@@ -14,6 +14,7 @@ node index/cortex-view.mjs .        # writes .cortex/view/repo.html and opens it
 node index/cortex-enrich.mjs plan . # optional: plan the semantic enrichment pass
 node index/cortex-routes.mjs . --workspace  # which back-end handler serves each front-end call
 node index/cortex-stamps.mjs .     # which files /cortex stamped are out of date; writes nothing
+node index/cortex-section.mjs .    # whether CLAUDE.md's team section is an older release's text; writes nothing
 node index/cortex-loop.mjs . --team architect,tester  # the team files, values and roster for those picks; writes nothing
 node index/cortex-impact.mjs src/a.ts --size  # one agent or the team for a task on these files, and why
 node index/cortex-shared-plugin.mjs .  # on a team repo: what --write would add to .claude/settings.json
@@ -26,20 +27,32 @@ with a message naming it — a typo is never reinterpreted as a path.
 
 Every script here runs on a stock machine — no `npm install`, no lockfile, no runtime dependency.
 
+**What is listed:** every script in `tools/` that a person, a ritual or cron runs directly. A file
+that is only sourced by other scripts is a library, not a tool, and its name starts with `_`.
+`_cortex-lib.sh` holds the slug rule, the clock, `knowledge_files()` and the root guard for
+`cortex.sh`, `cortex-rm.sh`, `cortex-scan-projects.sh` and `cortex-sync-skills.sh`. `tools/test/` is
+the test harness, run through `bash tools/test/run.sh`.
+
+This table is the Cortex README's, copied row for row. In the Cortex repository,
+`tools/test/tools-table.test.sh` fails when a script is missing from that table or a row names none.
+
 | Script | Does |
 |---|---|
-| `cortex-init.sh` | install a codebase brain into any repo |
-| `cortex.sh` | build and open `cortex.html` — the vault viewer |
-| `cortex-rm.sh` | remove a note safely (archive + de-link + refresh) |
-| `cortex-scan-projects.sh` | list which local repos already have a codebase brain |
-| `cortex-sync-skills.sh` | mirror the rituals into `.claude/skills/`; `--check` reports drift |
-| `cortex-vault-extract.sh` | lift the personal-vault half out into its own repo |
-| `cortex-capability.mjs` | what each ritual needs from the setup running it |
-| `cortex-frontmatter.mjs` | is every ritual's frontmatter readable by a router |
-| `cortex-version.mjs` | `--set X.Y.Z` — stamp the version everywhere, refuse without a changelog entry |
-| `cortex-preflight.mjs` | root, profile and index freshness — what every ritual asks before it writes |
-| `cortex-plugin-check.mjs` | which Cortex this session is actually running |
-| `cortex-skill-graph.mjs` | which ritual reaches which; `--check` fails on one stranded in both directions |
-| `cortex-skill-usage.mjs` | which rituals your sessions have actually reached |
-| `cortex-claude-docs.mjs` | re-verify the official Claude Code rules Cortex checks against |
-| `cortex-site-facts.mjs` | extract the facts this site renders; `--check` names any that drifted |
+| `cortex-init.sh` | Install a codebase brain into any repo, with no Node and no clone needed |
+| `cortex.sh` | Build/open `cortex.html` — the vault viewer |
+| `cortex-rm.sh` | Remove a note safely (archive + de-link + refresh) |
+| `cortex-scan-projects.sh` | Register your local git repos into the vault's `projects/`, metadata only |
+| `cortex-sync-skills.sh` | Mirror `skills/` into `.claude/skills/`; `--check` reports drift |
+| `cortex-vault-extract.sh` | Lift the personal-vault half out into its own repo; a dry run unless `--apply` |
+| `cortex-capability.mjs` | What each ritual needs from the setup running it |
+| `cortex-frontmatter.mjs` | Is every ritual's frontmatter readable by a router; `--check` fails on the first bad line, strictly |
+| `cortex-version.mjs` | `--set X.Y.Z` — stamp the version at all seven sites, refuse without a changelog entry |
+| `cortex-preflight.mjs` | Root, profile and index freshness — what every ritual asks before it writes |
+| `cortex-plugin-check.mjs` | Which Cortex this session is actually running, and whether it is the one you edited |
+| `cortex-skill-graph.mjs` | Which ritual reaches which; `--check` fails on one stranded in both directions |
+| `cortex-skill-usage.mjs` | Which rituals your sessions have actually reached |
+| `cortex-placeholders.mjs` | Did a file Cortex stamped keep a placeholder from its template; exit 1 if so |
+| `cortex-claude-docs.mjs` | Are the Claude Code rules Cortex ships still stated on Anthropic's pages; `--check` exits 1 on a stale one |
+| `cortex-site-facts.mjs` | The facts the public site states, read from source; `--check` names each one that drifted |
+| `server/server-setup.sh` | Set up a team brain: the bare repo on a server, a clone on each machine, the cron lines |
+| `server/cortex-cron.sh` | Run by cron on the server: pull the team brain, write a daily digest or weekly audit, push it |
