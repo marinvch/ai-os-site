@@ -73,6 +73,12 @@ too: its agents, the Tester's fence script and the `team` skill. The `CLAUDE.md`
 block, the team's section in `CLAUDE.md` and the hooks merged into `.claude/settings.json` sit
 inside files your team also writes, so they are not in the record.
 
+The team's section is checked another way: a re-run compares it with every version of it Cortex has
+shipped, filled with the roster the section already names. If it is an earlier release's text that
+nobody changed, the one confirmation offers to replace it, with the diff, and keeps the roster. If
+your team edited it, you see the diff and take any line you want by hand; it is never replaced.
+`node index/cortex-section.mjs .` shows which it is and writes nothing.
+
 ## The agent team
 
 `/cortex` also offers a small team of agents, written into `.claude/agents/` and committed with the
@@ -96,13 +102,18 @@ verifier if it says no.
 
 ### How a task runs
 
-A short section in `CLAUDE.md` puts the team to work. For each new task that changes code, your
-session runs `/cortex-impact <files> --size` on the files the task will touch, tells you whether it
-recommends one agent or the team and why, and **asks you**. Its thresholds are provisional: they
-were set from four repos' commit history and are not yet measured against outcomes. It recommends;
-you decide.
+A short section in `CLAUDE.md` puts the team to work. Before any work on a new task that changes
+code, your session runs `/cortex-impact <files> --size` on the files the task will touch and tells
+you, in words, what it recommends (one agent, the team, or that it cannot size the task) and why.
+Then it ends its reply with the question **"Single agent or team?"** and waits: it plans, edits and
+delegates nothing until you answer. It asks even when the recommendation is a single agent, and
+even when you told it to just do it. The sizing thresholds are provisional: they were set from four
+repos' commit history and are not yet measured against outcomes. It recommends; you decide.
 
-On "team" the session loads the `team` skill:
+The first release that offered the team wrote a section that could skip the question. On a repo
+that has it, a re-run of `/cortex` offers to replace it, as described under the stamp record above.
+
+Only once you answer "team" does the session load the `team` skill:
 
 1. The Architect plans.
 2. The Tester and the Reviewer object. An objection with no `path:line`, ADR or test behind it is

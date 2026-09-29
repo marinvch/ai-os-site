@@ -17,7 +17,7 @@ rather than sanitising it.
   agree). They make no network calls and install nothing: Cortex has no runtime dependencies. Two
   things there are meant to be committed: `.cortex/memory/`, and `.cortex/stamps.json` — the
   record of which files Cortex stamped into the repo and from which release.
-- **Two scripts write outside `.cortex/`**, and `/cortex` runs each only on what you confirmed:
+- **Three scripts write outside `.cortex/`**, and `/cortex` runs each only on what you confirmed:
   - `cortex-stamps.mjs update` rewrites only a file Cortex stamped that nobody has touched since,
     and never when `.cortex/stamps.json` names a newer Cortex than the one running. That check
     compares the record with the plugin's own version file; nothing is fetched to make it.
@@ -25,6 +25,9 @@ rather than sanitising it.
     `.claude/settings.json`, creating the file if there is none, and leaves every other key as it
     was. It refuses a file that does not parse as JSON. `--auto-update`, a separate choice, also
     writes `"autoUpdate": true` on a `cortex` entry it adds, and never changes one already there.
+  - `cortex-section.mjs --replace team` rewrites the `## Working as a team` section of `CLAUDE.md`,
+    and only when it is an earlier release's text that nobody has changed. Every other line of the
+    file stays as it was, and a section your team edited is never replaced.
 - **Updates are Claude Code's, not Cortex's.** Cortex never checks for a newer release. With
   auto-update turned on, Claude Code fetches the marketplace itself; the manual update is the two
   `claude plugin` commands on [Installation](#/install).
