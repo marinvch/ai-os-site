@@ -14,9 +14,10 @@ rather than sanitising it.
 
 - **The indexer, findings, View and every `index/` script** read the repo on disk and write only
   under its `.cortex/` (the first index run also appends three lines to `.gitignore`, after you
-  agree). They make no network calls and install nothing: Cortex has no runtime dependencies. Two
-  things there are meant to be committed: `.cortex/memory/`, and `.cortex/stamps.json` — the
-  record of which files Cortex stamped into the repo and from which release.
+  agree). They make no network calls and install nothing: Cortex has no runtime dependencies. Three
+  things there are meant to be committed: `.cortex/memory/`; `.cortex/stamps.json`, the record of
+  which files Cortex stamped into the repo and from which release; and `.cortex/sections.json`,
+  which `CLAUDE.md` sections your team edited and kept.
 - **Three scripts write outside `.cortex/`**, and `/cortex` runs each only on what you confirmed:
   - `cortex-stamps.mjs update` rewrites only a file Cortex stamped that nobody has touched since,
     and never when `.cortex/stamps.json` names a newer Cortex than the one running. That check

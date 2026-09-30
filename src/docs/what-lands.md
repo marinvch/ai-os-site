@@ -19,6 +19,8 @@ intent/               where a change starts: intent → spec → plan
   memory/             COMMITTED — shared context, secrets refused at the gate
   stamps.json         COMMITTED — which loop files Cortex stamped, from which release, so a re-run
                       updates the untouched ones and asks about the ones your team edited
+  sections.json       COMMITTED — a CLAUDE.md section your team edited and chose to keep, so it
+                      is asked about once, and again only when a release changes its text
 ```
 
 Nothing above appears until you choose it. `/cortex` and `/cortex-install` index and report
@@ -77,7 +79,13 @@ The team's section is checked another way: a re-run compares it with every versi
 shipped, filled with the roster the section already names. If it is an earlier release's text that
 nobody changed, the one confirmation offers to replace it, with the diff, and keeps the roster. If
 your team edited it, you see the diff and take any line you want by hand; it is never replaced.
-`node index/cortex-section.mjs .` shows which it is and writes nothing.
+Your answer is recorded in `.cortex/sections.json`, so the question is not asked again until a
+release changes the section's text. Then the new diff is shown once. Editing your own section again
+never brings it back. `node index/cortex-section.mjs .` shows which state it is in and writes nothing.
+
+The verification block has no such check. Teams trim it by hand, so no comparison can tell Cortex's
+text from theirs. Its template has not changed since it shipped, and Cortex's own tests fail if it
+ever does, until someone decides how the change should reach repos that already hold the block.
 
 ## The agent team
 
