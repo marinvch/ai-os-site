@@ -29,6 +29,10 @@ prevent has already been made once.
   skill listed in `evals/skills.mjs` no longer matches its recorded baseline;
   `node evals/run.mjs <skill> --record` re-measures it, and refuses a real drop in score unless you
   give the reason. Frontmatter edits are exempt.
+- **A ritual's description is paid for in every session, so it stays short and owns its
+  triggers.** Claude Code drops descriptions once the listing of every installed plugin passes its
+  budget, and a ritual listed by name alone cannot be reached from a request. A test caps each
+  description and their total, and fails when two rituals claim the same trigger phrase.
 
 ## Running the tests
 
