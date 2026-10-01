@@ -11,6 +11,8 @@
 //   3. Every ritual page code names goes through ritual('name'), and that name exists.
 //   4. Every {{token}} a page uses is one fillFacts() knows.
 //   5. The two fact pages (Rituals, MCP brain) name no ritual or tool by hand at all.
+//   6. Every ritual's `when` and `does` uses only the inline markdown InlineMarkdown renders —
+//      `code`, **strong**, *emphasis*. A link or a tag would otherwise show as its raw characters.
 //
 // Run: node scripts/check-facts.mjs   (the build runs it first)
 import { readFileSync, readdirSync, statSync } from 'node:fs'
@@ -45,6 +47,16 @@ if (!Array.isArray(facts.mcpTools) || facts.mcpTools.length === 0) fail('site-fa
 for (const r of facts.rituals ?? []) {
   for (const k of ['name', 'when', 'does']) if (typeof r[k] !== 'string' || !r[k]) fail(`ritual ${JSON.stringify(r.name)} has no ${k}`)
   if (r.invocation !== 'model' && r.invocation !== 'user') fail(`ritual /${r.name} has invocation "${r.invocation}"`)
+}
+// ── 6. inline markdown the home page and Rituals page can render ──
+// Mirrors INLINE_SYNTAX in src/components/InlineMarkdown.tsx.
+const INLINE = /`[^`]+`|\*\*[^*]+\*\*|\*[^*\s][^*]*\*/g
+for (const r of facts.rituals ?? []) {
+  for (const k of ['when', 'does']) {
+    const rest = String(r[k] ?? '').replace(INLINE, '')
+    const bad = /\]\(|<[a-z/!]|(^|\s)_[^_\s][^_]*_|[*`]/i.exec(rest)
+    if (bad) fail(`ritual /${r.name} ${k} uses markdown InlineMarkdown does not render ("${bad[0].trim()}"): ${r[k]}`)
+  }
 }
 for (const t of facts.mcpTools ?? []) {
   if (!Array.isArray(t.modes) || t.modes.some(m => m !== 'repo' && m !== 'vault')) fail(`MCP tool ${t.name} has modes ${JSON.stringify(t.modes)}`)

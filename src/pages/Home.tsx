@@ -13,7 +13,7 @@ import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined'
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined'
 import MemoryOutlinedIcon from '@mui/icons-material/MemoryOutlined'
 import { facts, installBlock, ritual } from '../facts'
-import { InlineMarkdown } from '../components/Markdown'
+import { InlineMarkdown } from '../components/InlineMarkdown'
 import { REPO_URL, SITE_TITLE } from '../site'
 
 interface Feature { icon: ReactNode; title: string; desc: string; to: string }
