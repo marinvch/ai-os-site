@@ -7,6 +7,11 @@ The vault is **optional** and lives in **its own private repository** — never 
 checkout, and never inside a product repo. It is being extracted so that Cortex itself stays purely
 the shippable context manager.
 
+The vault rituals ship in the same plugin as the codebase ones. Their descriptions cost a
+codebase-only user about 720 tokens a session.
+[ADR 0020](https://github.com/marinvch/Cortex/blob/master/docs/adr/0020-the-vault-rituals-stay-in-the-one-plugin.md)
+records why they stay rather than becoming a second plugin.
+
 > One rule: capture first, organize later. Nothing lives only in your head.
 
 ## Quick start
