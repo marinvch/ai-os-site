@@ -5,41 +5,40 @@ import Home from './pages/Home'
 import NotFound from './pages/NotFound'
 import { ThemeProvider } from './context/ThemeContext'
 
-import install from './docs/install.md?raw'
-import sequence from './docs/sequence.md?raw'
-import whatLands from './docs/what-lands.md?raw'
-import indexAndFindings from './docs/index-and-findings.md?raw'
-import cortexView from './docs/cortex-view.md?raw'
-import contextLayer from './docs/context-layer.md?raw'
-import teamMemory from './docs/team-memory.md?raw'
-import cli from './docs/cli.md?raw'
-import principles from './docs/principles.md?raw'
-import vault from './docs/vault.md?raw'
-import privacy from './docs/privacy.md?raw'
-import contributing from './docs/contributing.md?raw'
-import migrate from './docs/migrate.md?raw'
-
-const DocPage = lazy(() => import('./pages/DocPage'))
 const Rituals = lazy(() => import('./pages/Rituals'))
 const McpBrain = lazy(() => import('./pages/McpBrain'))
 
 const Loader = () => <div className="content-loader" aria-live="polite">Loading…</div>
 
-const docs: { path: string; title: string; content: string }[] = [
-  { path: '/install', title: 'Installation', content: install },
-  { path: '/sequence', title: 'The sequence', content: sequence },
-  { path: '/what-lands', title: 'What lands in your repo', content: whatLands },
-  { path: '/index-and-findings', title: 'Index & findings', content: indexAndFindings },
-  { path: '/cortex-view', title: 'Cortex View', content: cortexView },
-  { path: '/context-layer', title: 'The context layer', content: contextLayer },
-  { path: '/team-memory', title: 'Team memory', content: teamMemory },
-  { path: '/cli', title: 'CLI reference', content: cli },
-  { path: '/principles', title: 'Design principles', content: principles },
-  { path: '/vault', title: 'Personal vault', content: vault },
-  { path: '/privacy', title: 'Privacy & firewall', content: privacy },
-  { path: '/contributing', title: 'Contributing', content: contributing },
-  { path: '/migrate', title: 'Moving off the old engine', content: migrate },
+// Each page's markdown is its own chunk, fetched with the page. Imported eagerly, all thirteen sat in
+// the bundle every visitor loads first, to read the one page they opened.
+const sources = import.meta.glob<string>('./docs/*.md', { query: '?raw', import: 'default' })
+
+const docs: { path: string; title: string; file: string }[] = [
+  { path: '/install', title: 'Installation', file: 'install' },
+  { path: '/sequence', title: 'The sequence', file: 'sequence' },
+  { path: '/what-lands', title: 'What lands in your repo', file: 'what-lands' },
+  { path: '/index-and-findings', title: 'Index & findings', file: 'index-and-findings' },
+  { path: '/cortex-view', title: 'Cortex View', file: 'cortex-view' },
+  { path: '/context-layer', title: 'The context layer', file: 'context-layer' },
+  { path: '/team-memory', title: 'Team memory', file: 'team-memory' },
+  { path: '/cli', title: 'CLI reference', file: 'cli' },
+  { path: '/principles', title: 'Design principles', file: 'principles' },
+  { path: '/vault', title: 'Personal vault', file: 'vault' },
+  { path: '/privacy', title: 'Privacy & firewall', file: 'privacy' },
+  { path: '/contributing', title: 'Contributing', file: 'contributing' },
+  { path: '/migrate', title: 'Moving off the old engine', file: 'migrate' },
 ]
+
+const pages = docs.map(d => {
+  const load = sources[`./docs/${d.file}.md`]
+  if (!load) throw new Error(`no src/docs/${d.file}.md for ${d.path}`)
+  const Page = lazy(async () => {
+    const [content, { default: DocPage }] = await Promise.all([load(), import('./pages/DocPage')])
+    return { default: () => <DocPage title={d.title} content={content} /> }
+  })
+  return { path: d.path, Page }
+})
 
 // Hash routes the old engine's site published. Links to them still exist in the wild, so each
 // lands on the page that replaced it rather than on a 404.
@@ -62,8 +61,8 @@ export default function App() {
           <Suspense fallback={<Loader />}>
             <Routes>
               <Route path="/" element={<Home />} />
-              {docs.map(d => (
-                <Route key={d.path} path={d.path} element={<DocPage title={d.title} content={d.content} />} />
+              {pages.map(({ path, Page }) => (
+                <Route key={path} path={path} element={<Page />} />
               ))}
               <Route path="/rituals" element={<Rituals />} />
               <Route path="/mcp" element={<McpBrain />} />

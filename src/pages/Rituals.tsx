@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { facts } from '../facts'
-import { InlineMarkdown } from '../components/Markdown'
+import { InlineMarkdown } from '../components/InlineMarkdown'
 import { SITE_TITLE } from '../site'
 
 // Every row comes from site-facts.json. Nothing on this page names a ritual by hand.
