@@ -144,6 +144,9 @@ has limits:
   and a `-p` session never counts as trusted. The Tester still runs, unfenced.
 - **Bash.** The Tester needs Bash to run tests, and a shell command can write any file. Writing only
   through Edit and Write is an instruction to it, not a guard.
+- **An installed mod.** A Claude Code mod that approves tool calls can approve an edit the hook
+  blocked, because the hook is not in managed settings. The same holds for the loop's
+  `protected-paths.sh`. An organisation stops it with `allowManagedModsOnly`; a repo cannot.
 - **Teammates.** A Tester spawned as an agent-teams teammate is not documented to carry the hook.
 - **Windows without Git Bash.** Claude Code then runs hooks in PowerShell, and whether a failure
   there still refuses the edit depends on its version. Treat Git Bash as required.
