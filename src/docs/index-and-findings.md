@@ -43,6 +43,16 @@ size and emphasis, skill and subagent frontmatter, hook scripts, direct Messages
 `claude-setup/*` finding cites the documented rule it rests on, or says it is Cortex's own
 threshold, and none ranks above medium: it is advice about your repo, not a failure.
 
+A plugin whose `hooks/hooks.json` has a `modules` key is a Claude Code mod, and the report says so.
+It is judged by its files, never by its code: whether `modules` is an array of one path, whether
+that path names a file, and its extension. Which events the module handles and which calls it makes
+is what `claude plugin validate` prints.
+
+When the repo has a root `CLAUDE.md` and scoped briefs, the report's glance and `/cortex-next` say
+that those briefs load through the routing table only, because under a root `CLAUDE.md` Claude Code
+does not read a subdirectory's `AGENTS.md` on its own. It is stated as a fact, not a finding: no
+edit to the repo changes it.
+
 ## Enrichment
 
 The optional prose layer — a summary, role and tags per file — produced by a model with

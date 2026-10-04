@@ -15,6 +15,9 @@ prevent has already been made once.
 - **Cortex follows the Claude Code rules it reports on.** A test runs the `claude-setup/` findings
   over the Cortex repository itself and fails on any. Fix the repo, never the checker: loosening a
   check loosens it for every user.
+- **The plugin ships no mod and no hooks, and `/cortex-scaffold` keeps the `CLAUDE.md` shim.** A
+  mod runs unsandboxed in every user's session and does not load under the policy a work machine is
+  likeliest to have. The shim is what sessions that cannot read `AGENTS.md` directly depend on.
 - **Every ritual is reachable** from another, or says what reaches it. A ritual nothing points at is
   unreachable except by someone who already knows it exists.
 - **A destructive shell tool routes its target through the root guard.** A string-prefix check is

@@ -8,7 +8,9 @@ which.
 A **small** root brief — what the repo is, how to run it, its invariants and gotchas — ending in a
 **routing table**. `CLAUDE.md` and `GEMINI.md` are one-line shims importing it, so Claude, Gemini,
 Copilot and Cursor all read the same file. The one addition is Claude-specific: `/cortex` appends
-a `## Verifying your work` block to `CLAUDE.md`. `GEMINI.md` stays one line.
+a `## Verifying your work` block to `CLAUDE.md`. `GEMINI.md` stays one line. Claude Code v2.1.277
+and later can read `AGENTS.md` with no `CLAUDE.md` at all, and the shim is still written: older
+versions and some sessions cannot, and the import is never read twice.
 
 Written by `/cortex-scaffold`, the apply step: it is invoked explicitly and never runs on its own.
 

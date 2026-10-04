@@ -50,8 +50,10 @@ A test fails if `core/` reaches upward, or if either leaf imports the other. Sha
 
 Cortex follows Anthropic's own Claude Code documentation, and vendors those rules as data — each
 with its source page, the exact sentence it rests on, and the date it was checked. A maintainer
-tool re-verifies them weekly, so a rule that changes upstream is noticed rather than trusted.
-*(ADR 0017)*
+tool re-verifies them daily, so a rule that changes upstream is noticed rather than trusted. The
+same run reports any page of the docs or the blog that Cortex has not seen, because a feature
+documented on a page no rule cites would otherwise go unnoticed. A new page creates no rule: a
+maintainer reads it first. *(ADR 0017)*
 
 ## A skill is measured, not self-reported
 
