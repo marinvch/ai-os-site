@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, type ComponentType } from 'react'
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
@@ -30,12 +30,23 @@ const docs: { path: string; title: string; file: string }[] = [
   { path: '/migrate', title: 'Moving off the old engine', file: 'migrate' },
 ]
 
+// A page that shows something as well as describing it. The component loads with its page, so the
+// other twelve do not carry it.
+const visuals: Record<string, () => Promise<{ default: ComponentType }>> = {
+  'cortex-view': () => import('./components/ViewEmbed'),
+}
+
 const pages = docs.map(d => {
   const load = sources[`./docs/${d.file}.md`]
   if (!load) throw new Error(`no src/docs/${d.file}.md for ${d.path}`)
   const Page = lazy(async () => {
-    const [content, { default: DocPage }] = await Promise.all([load(), import('./pages/DocPage')])
-    return { default: () => <DocPage title={d.title} content={content} /> }
+    const [content, { default: DocPage }, visual] = await Promise.all([
+      load(),
+      import('./pages/DocPage'),
+      visuals[d.file]?.(),
+    ])
+    const Visual = visual?.default
+    return { default: () => <DocPage title={d.title} content={content} afterIntro={Visual && <Visual />} /> }
   })
   return { path: d.path, Page }
 })
